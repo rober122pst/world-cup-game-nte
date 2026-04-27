@@ -1,0 +1,17 @@
+{
+  "FolderOrderSettings":[],
+  "ResourceOrderSettings":[
+    {"name":"oBall","order":1,"path":"objects/oBall/oBall.yy",},
+    {"name":"oBar","order":2,"path":"objects/oBar/oBar.yy",},
+    {"name":"oCamera","order":4,"path":"objects/oCamera/oCamera.yy",},
+    {"name":"oController","order":3,"path":"objects/oController/oController.yy",},
+    {"name":"get_player_sprites","order":1,"path":"scripts/get_player_sprites/get_player_sprites.yy",},
+    {"name":"sprBall","order":1,"path":"sprites/sprBall/sprBall.yy",},
+    {"name":"sprBar","order":2,"path":"sprites/sprBar/sprBar.yy",},
+    {"name":"sprPlayerIdleDown","order":6,"path":"sprites/sprPlayerIdleDown/sprPlayerIdleDown.yy",},
+    {"name":"sprPlayerIdleSide","order":7,"path":"sprites/sprPlayerIdleSide/sprPlayerIdleSide.yy",},
+    {"name":"sprPlayerIdleUp","order":5,"path":"sprites/sprPlayerIdleUp/sprPlayerIdleUp.yy",},
+    {"name":"sprPlayerSide","order":4,"path":"sprites/sprPlayerSide/sprPlayerSide.yy",},
+    {"name":"sprPlayerUp","order":3,"path":"sprites/sprPlayerUp/sprPlayerUp.yy",},
+  ],
+}
