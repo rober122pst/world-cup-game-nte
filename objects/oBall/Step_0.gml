@@ -1,32 +1,18 @@
-
-
-if(oPlayer.forca >= 5 && oPlayer.stateShoot == oPlayer.chutou && jumpSize > 0) {
-	jump = true;
-	jumpSize--;
-}
-
-
+x = clamp(x, 0, room_width);
+y = clamp(y, 0, room_height);
 
 if (jump) {
-	if(!isJumping) {
-		jump = false;
-		isJumping = true;
-	}
-	vspd = -8;
+	zspd = -6;
+	jump = false;
 }
 
-if (isJumping) {
-	vspd += grvt;
-	if(vspd >= 8) {
-		vspd = 0;
-		isJumping = false;
-	}
+zspd += grvt;
+
+if ((z + zspd) > 0) {
+	z = 0;
+	zspd = 0;
 }
 
-y+=vspd
 
-if(oPlayer.stateShoot = 0) {
-	jumpSize = 1;	
-}
-
-x = clamp(x, 0, room_width);
+speed = lerp(speed, 0, fric);
+z += zspd;

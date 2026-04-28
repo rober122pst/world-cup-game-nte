@@ -1,0 +1,5 @@
+// Inherit the parent event
+event_inherited();
+
+opponent_team_obj = oOpponentPlayer;
+my_team = global.team_home;

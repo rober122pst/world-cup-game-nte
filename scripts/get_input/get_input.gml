@@ -4,3 +4,11 @@
 #macro KEY_DOWN keyboard_check(vk_down)
 #macro KEY_SHOOT keyboard_check_pressed(ord("Z"))
 #macro KEY_PASS keyboard_check_pressed(ord("X"))
+
+
+enum SHOOT_STATE {
+	SHOOTING,
+	PASSING,
+	SHOT,
+	PASSED
+}
