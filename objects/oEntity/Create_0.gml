@@ -2,6 +2,8 @@ posse = 1;
 marcando = 2;
 atacando = 3;
 
+z = 0;
+
 dx = 0;
 dy = 0;
 angle = 0;
@@ -22,12 +24,18 @@ current_shoot_state = -1;
 
 force = 0;
 max_force = 30;
-increment_force = 1;
+increment_force = .5;
 
 set_alarm = false;
 
 opponent_team_obj = oOpponentPlayer;
+teamplayer_obj = oTeamPlayer;
 my_team = global.team_home;
+
+pause_state = function () {
+	show_debug_message("To parado")
+	exit; 
+}
 
 freeze_state = function () {
 	if (!set_alarm) {
@@ -39,66 +47,51 @@ freeze_state = function () {
 free_state = function () {
 	player_move();
 	
-	if (place_meeting(x, y, oBall)) {
-		state = poss_state;		
+	if (place_meeting(x, y, oBall) && global.with_poss == noone) {
+		//state = poss_state;
+		global.with_poss = id;
 	}
 	
 	current_shoot_state = -1;
 }
 
-poss_state = function () {
-	player_move();
-	global.with_poss = id;
-	
-	if (dx != 0 || dy != 0) timer_with_poss++; else timer_with_poss = lerp(timer_with_poss, 0, 1);
-	var _ball_dist = 7;
-	var _pad = 3;
-	
-	var func = sin(timer_with_poss * 0.15) * 6;
-	
-	oBall.x = x + lengthdir_x(_ball_dist + abs(func), angle);
-	oBall.y = y - _pad + lengthdir_y(_ball_dist + abs(func), angle);
-	
+shoot_state = function () {
 	if (KEY_SHOOT) {
-		if (current_shoot_state == -1) {
-			current_shoot_state = SHOOT_STATE.SHOOTING;	
-		} else if (current_shoot_state == SHOOT_STATE.SHOOTING) {
-			current_shoot_state = SHOOT_STATE.SHOT;	
-		}
+		current_shoot_state = SHOOT_STATE.SHOT;	
 	}
 	
-	if(current_shoot_state == SHOOT_STATE.SHOOTING) {
-		force+=increment_force;
-
-		if(force >= max_force) {
-			force = max_force;
-			current_shoot_state = SHOOT_STATE.SHOT;
-		}
-	}
-	
-	if(current_shoot_state == SHOOT_STATE.SHOT) {
-		/*if(distance_to_object(oBar) < 192) {
-			if(oBall.direction != 180) {
-				oBall.direction = 0;
-				oBall.x += forca*velx;
-				oBall.y += forca*vely;
-				oBall.speed = forca;
-			}else {
-				oBall.speed = forca;
-			}
-		}else {
-			oBall.speed = forca;
-		}*/
-		oBall.speed = force;
-		oBall.direction = angle;
-		
-		oBall.jump = true;
-
-		force = 0;	
-		current_shoot_state = -1;
-		set_alarm = false;
-		state = freeze_state;
-	}
+	shoot();
 }
 
 state = free_state;
+
+is_with_ball = function() {
+	return global.with_poss == id;
+}
+
+ai_tree = noone;
+
+if (object_index != oPlayer) {
+	var go_to_ball_node = new ActionNode(go_to_ball);
+	var shoot_node = new ActionNode(shoot);
+	
+	var ball_check_node = new DecisionNode(ball_is_free, go_to_ball_node, free_node); 
+	var teamplayer_free_node = new DecisionNode(
+		function() {
+			teamplayer_is_free(teamplayer_obj, opponent_team_obj)	
+		},
+		
+		)
+	var sunrrounded_node = new DecisionNode(
+		function() { 
+			is_surrounded(opponent_team_obj, 32) 
+		}, 
+		
+		);	
+	var check_goal_distance = new DecisionNode(can_shoot, shoot_node, ); 
+	
+	
+	ai_tree = new DecisionNode(is_with_ball, sunrrounded_node, ball_check_node);
+}
+
+

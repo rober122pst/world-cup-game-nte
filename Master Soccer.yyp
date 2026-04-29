@@ -45,6 +45,7 @@
     {"id":{"name":"oPostTop","path":"objects/oPostTop/oPostTop.yy",},},
     {"id":{"name":"oTeamPlayer","path":"objects/oTeamPlayer/oTeamPlayer.yy",},},
     {"id":{"name":"rmCampo","path":"rooms/rmCampo/rmCampo.yy",},},
+    {"id":{"name":"behaviour_tree","path":"scripts/behaviour_tree/behaviour_tree.yy",},},
     {"id":{"name":"get_input","path":"scripts/get_input/get_input.yy",},},
     {"id":{"name":"player_functions","path":"scripts/player_functions/player_functions.yy",},},
     {"id":{"name":"player_sensors","path":"scripts/player_sensors/player_sensors.yy",},},

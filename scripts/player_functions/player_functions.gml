@@ -27,4 +27,52 @@ function player_move() {
 	
 	if (dx != 0)
 		image_xscale = dx;
+		
+	if (global.with_poss == id) {
+		if (dx != 0 || dy != 0) timer_with_poss++; else timer_with_poss = lerp(timer_with_poss, 0, 1);
+		var _ball_dist = 7;
+		var _pad = 3;
+	
+		var func = sin(timer_with_poss * 0.15) * 6;
+	
+		oBall.x = x + lengthdir_x(_ball_dist + abs(func), angle);
+		oBall.y = y - _pad + lengthdir_y(_ball_dist + abs(func), angle);
+	
+		if (KEY_SHOOT) {
+			current_shoot_state = SHOOT_STATE.SHOOTING;
+			state = shoot_state;
+		}	
+	}
+}
+
+function go_to_ball() {
+	show_debug_message("Indo atras da bola");
+	dx = sign(oBall.x - x);
+	dy = sign(oBall.y - y);
+
+	free_state();
+}
+
+function shoot() {
+	if(current_shoot_state == SHOOT_STATE.SHOOTING) {
+		force+=increment_force;
+
+		if(force >= max_force) {
+			force = max_force;
+			current_shoot_state = SHOOT_STATE.SHOT;
+		}
+	}
+	
+	if(current_shoot_state == SHOOT_STATE.SHOT) {
+		oBall.speed = force;
+		oBall.direction = angle;
+		
+		if (force >= force*.75)
+			oBall.jump = true;
+
+		force = 0;	
+		current_shoot_state = -1;
+
+		state = free_state;
+	}	
 }

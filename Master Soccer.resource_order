@@ -10,6 +10,7 @@
     {"name":"oPostBottom","order":10,"path":"objects/oPostBottom/oPostBottom.yy",},
     {"name":"oPostTop","order":9,"path":"objects/oPostTop/oPostTop.yy",},
     {"name":"oTeamPlayer","order":7,"path":"objects/oTeamPlayer/oTeamPlayer.yy",},
+    {"name":"behaviour_tree","order":3,"path":"scripts/behaviour_tree/behaviour_tree.yy",},
     {"name":"player_functions","order":1,"path":"scripts/player_functions/player_functions.yy",},
     {"name":"player_sensors","order":2,"path":"scripts/player_sensors/player_sensors.yy",},
     {"name":"sprAim","order":9,"path":"sprites/sprAim/sprAim.yy",},
