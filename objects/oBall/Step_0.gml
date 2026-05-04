@@ -15,4 +15,7 @@ if ((z + zspd) > 0) {
 
 
 speed = lerp(speed, 0, fric);
+if (speed <= 0) {
+	show_debug_message(point_distance(x_init, y_init, x, y));
+}
 z += zspd;

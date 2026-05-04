@@ -6,11 +6,11 @@ function DecisionNode(_conditionFunc, _trueBranch, _falseBranch) constructor {
     true_branch = _trueBranch;
     false_branch = _falseBranch;
 
-    function evaluate() {
-        if (condition()) {
-            return true_branch.evaluate();
+    function evaluate(_actor) {
+        if (condition(_actor)) {
+            return true_branch.evaluate(_actor);
         } else {
-            return false_branch.evaluate();
+            return false_branch.evaluate(_actor);
         }
     }
 }
@@ -18,7 +18,7 @@ function DecisionNode(_conditionFunc, _trueBranch, _falseBranch) constructor {
 function ActionNode(_actionFunc) constructor {
     action = _actionFunc;
 
-    function evaluate() {
-        return action();
+    function evaluate(_actor) {
+        return action(_actor);
     }
 }

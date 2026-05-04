@@ -1,4 +1,4 @@
-
+ai_tree = noone;
 event_inherited();
 state();
 

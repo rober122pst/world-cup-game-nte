@@ -45,34 +45,69 @@ function player_move() {
 	}
 }
 
-function go_to_ball() {
-	show_debug_message("Indo atras da bola");
-	dx = sign(oBall.x - x);
-	dy = sign(oBall.y - y);
+function go_to_ball (_actor) {
+	_actor.decision = "Indo atras da bola";
+	_actor.dx = sign(oBall.x - _actor.x);
+	_actor.dy = sign(oBall.y - _actor.y);
 
-	free_state();
+	_actor.free_state();
 }
 
-function shoot() {
-	if(current_shoot_state == SHOOT_STATE.SHOOTING) {
-		force+=increment_force;
+function shooting(_actor) {
+	shoot(_actor.id);
+	if (_actor.current_shoot_state == -1) _actor.current_shoot_state = SHOOT_STATE.SHOOTING;
+	_actor.timer_to_shoot += 1 / game_get_speed(gamespeed_fps);
+	
+	var req_force = ( goal_distance(_actor.target)*_actor.max_force ) / 375 // 375 é a distancia maxima que a bola vai
+	var req_time = req_force * 2;
+	
+	if (_actor.timer_to_shoot >= random_range(req_force - 1, req_force + 5) && _actor.current_shoot_state != SHOOT_STATE.SHOT) {
+		_actor.current_shoot_state = SHOOT_STATE.SHOT;
+		_actor.timer_to_shoot = 0;
+	}
+}
 
-		if(force >= max_force) {
-			force = max_force;
-			current_shoot_state = SHOOT_STATE.SHOT;
+function shoot(_actor) {
+	_actor.decision = "Chutando";
+	if(_actor.current_shoot_state == SHOOT_STATE.SHOOTING) {
+		_actor.force+=_actor.increment_force;
+
+		if(_actor.force >= _actor.max_force) {
+			_actor.force = _actor.max_force;
+			_actor.current_shoot_state = SHOOT_STATE.SHOT;
 		}
 	}
 	
-	if(current_shoot_state == SHOOT_STATE.SHOT) {
-		oBall.speed = force;
-		oBall.direction = angle;
+	if(_actor.current_shoot_state == SHOOT_STATE.SHOT) {
+		global.with_poss = noone;
+		oBall.speed = _actor.force;
+		oBall.direction = _actor.angle;
+		oBall.x_init = oBall.x;
+		oBall.y_init = oBall.y;
 		
-		if (force >= force*.75)
+		if (_actor.force >= _actor.max_force*.75)
 			oBall.jump = true;
 
-		force = 0;	
-		current_shoot_state = -1;
+		_actor.force = 0;	
+		_actor.current_shoot_state = -1;
+	
+		_actor.state = _actor.free_state;
+	}
+}
 
-		state = free_state;
-	}	
+function pass(_actor) {
+	_actor.decision = "Passando";
+}
+
+function get_back(_actor) {
+	_actor.decision = "Voltando";
+}
+
+function go_to_goal(_actor) {
+	_actor.decision = "Indo pro gol";
+	
+	_actor.dx = sign(_actor.target.x - _actor.x);
+	_actor.dy = sign(_actor.target.y - _actor.y - random_range(-1, 1));
+	
+	_actor.free_state();
 }

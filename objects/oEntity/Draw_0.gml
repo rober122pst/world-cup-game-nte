@@ -57,5 +57,7 @@ if (global.debug) {
 	
 	draw_circle(x, y, 90, 1);
 	draw_circle(x, y, 160, 1);
+	
+	draw_text(x, y-5, decision);
 }
 #endregion DEBUG

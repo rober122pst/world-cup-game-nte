@@ -1,3 +1,4 @@
+randomise()
 global.with_poss = noone;
 
 global.team_home = "Brasil";
