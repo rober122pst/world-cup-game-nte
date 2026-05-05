@@ -16,8 +16,8 @@ function player_move() {
 		vspd = lerp(vspd, 0, fric);	
 	}
 	
-	y += vspd;
-	x += hspd;
+	y += vspd * global.dt;
+	x += hspd * global.dt;
 	
 	if (abs(hspd) <= .1 && abs(vspd) <= .1) {
 		sprite_index = sprPlayerIdleSide;
@@ -27,22 +27,7 @@ function player_move() {
 	
 	if (dx != 0)
 		image_xscale = dx;
-		
-	if (global.with_poss == id) {
-		if (dx != 0 || dy != 0) timer_with_poss++; else timer_with_poss = lerp(timer_with_poss, 0, 1);
-		var _ball_dist = 7;
-		var _pad = 3;
-	
-		var func = sin(timer_with_poss * 0.15) * 6;
-	
-		oBall.x = x + lengthdir_x(_ball_dist + abs(func), angle);
-		oBall.y = y - _pad + lengthdir_y(_ball_dist + abs(func), angle);
-	
-		if (KEY_SHOOT) {
-			current_shoot_state = SHOOT_STATE.SHOOTING;
-			state = shoot_state;
-		}	
-	}
+
 }
 
 function go_to_ball (_actor) {
@@ -53,50 +38,84 @@ function go_to_ball (_actor) {
 	_actor.free_state();
 }
 
-function shooting(_actor) {
-	shoot(_actor.id);
-	if (_actor.current_shoot_state == -1) _actor.current_shoot_state = SHOOT_STATE.SHOOTING;
-	_actor.timer_to_shoot += 1 / game_get_speed(gamespeed_fps);
-	
-	var req_force = ( goal_distance(_actor.target)*_actor.max_force ) / 375 // 375 é a distancia maxima que a bola vai
-	var req_time = req_force * 2;
-	
-	if (_actor.timer_to_shoot >= random_range(req_force - 1, req_force + 5) && _actor.current_shoot_state != SHOOT_STATE.SHOT) {
-		_actor.current_shoot_state = SHOOT_STATE.SHOT;
-		_actor.timer_to_shoot = 0;
-	}
-}
-
-function shoot(_actor) {
-	_actor.decision = "Chutando";
+function increment_shoot_force(_actor) {
 	if(_actor.current_shoot_state == SHOOT_STATE.SHOOTING) {
-		_actor.force+=_actor.increment_force;
+		_actor.force += _actor.increment_force*global.dt;
 
 		if(_actor.force >= _actor.max_force) {
 			_actor.force = _actor.max_force;
 			_actor.current_shoot_state = SHOOT_STATE.SHOT;
 		}
 	}
-	
-	if(_actor.current_shoot_state == SHOOT_STATE.SHOT) {
-		global.with_poss = noone;
-		oBall.speed = _actor.force;
-		oBall.direction = _actor.angle;
-		oBall.x_init = oBall.x;
-		oBall.y_init = oBall.y;
-		
-		if (_actor.force >= _actor.max_force*.75)
-			oBall.jump = true;
+}
 
-		_actor.force = 0;	
-		_actor.current_shoot_state = -1;
+function shooting(_actor) {
+	with (_actor) {
+		shoot(id);
+		show_debug_message(current_shoot_state == SHOOT_STATE.SHOOTING)
+		if (current_shoot_state == -1) current_shoot_state = SHOOT_STATE.SHOOTING;
+		timer_to_shoot++;
 	
-		_actor.state = _actor.free_state;
+		var req_force = ( goal_distance(target).goal_dist*max_force ) / 375 // 375 é a distancia maxima que a bola vai
+		var req_time = req_force * 2;
+
+		if (timer_to_shoot >= random_range(req_time - 1, req_time + 5) && current_shoot_state != SHOOT_STATE.SHOT) {			
+			current_shoot_state = SHOOT_STATE.SHOT;
+			timer_to_shoot = 0;
+		}
 	}
 }
 
+function shoot(_actor) {
+	with (_actor) {
+		decision = "Chutando";
+		if(current_shoot_state == SHOOT_STATE.SHOOTING) {
+			force+=increment_force;
+
+			if(force >= max_force) {
+				force = max_force;
+				current_shoot_state = SHOOT_STATE.SHOT;
+			}
+		}
+	
+		if(current_shoot_state == SHOOT_STATE.SHOT) {
+			shot();
+		}
+	}
+}
+
+function shot() {
+	has_ball = false;
+	global.with_poss = noone;
+	
+	with (oBall) {
+		owner = noone;
+		speed = other.force;
+		direction = other.angle;
+		other.x_init = x;
+		other.y_init = y;
+	}
+	
+	if (force >= max_force*.75)
+		oBall.jump = true;
+		
+	force = 0;	
+	current_shoot_state = -1;
+	
+	state = free_state;	
+}
+
 function pass(_actor) {
-	_actor.decision = "Passando";
+	with (_actor) {
+		decision = "Passando";
+		var nearest = nearest_teamplayer(teamplayer_obj);
+		
+		current_shoot_state = SHOOT_STATE.SHOT;
+		force = ( nearest.distance*max_force ) / 375 // 375 é a distancia maxima que a bola vai
+		angle = point_direction(x, y, nearest.teamplayer.x, nearest.teamplayer.y);
+		
+		shoot(id);	
+	}
 }
 
 function get_back(_actor) {

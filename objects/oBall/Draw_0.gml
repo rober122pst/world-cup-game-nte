@@ -10,4 +10,4 @@ draw_ellipse(xx, y, xx1, y + 3, false);
 draw_set_alpha(1);
 draw_set_colour(c_white);
 
-draw_sprite_ext(sprBall, 0, x, y + z, image_xscale, image_yscale, 0, c_white, 1);
+draw_sprite_ext(sprBall, image_index, x, y + z, image_xscale, image_yscale, 0, c_white, 1);

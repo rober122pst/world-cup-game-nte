@@ -17,6 +17,7 @@ state = noone;
 
 target = noone;
 
+has_ball = false;
 
 current_shoot_state = -1;
 
@@ -44,13 +45,6 @@ freeze_state = function () {
 
 free_state = function () {
 	player_move();
-	
-	if (place_meeting(x, y, oBall) && global.with_poss == noone) {
-		//state = poss_state;
-		global.with_poss = id;
-	}
-	
-	if (global.with_poss != id) current_shoot_state = -1;
 }
 
 shoot_state = function () {
@@ -71,17 +65,19 @@ timer_to_shoot = 0;
 
 decision = "";
 
-ai_tree = noone;
+is_busy = false;
+busy_timer = 0;
+current_action_node = -1;
 
 //actions = player_functions();
 
 
 var go_to_ball_node = new ActionNode(go_to_ball);
 var shoot_node = new ActionNode(shooting);
-var pass_node = new ActionNode(pass);
+var pass_node = new ActionNode(pass, 500);
 var get_back_node = new ActionNode(get_back);
 var go_to_goal_node = new ActionNode(go_to_goal);
-var marcando = new ActionNode(function(_actor) { _actor.decision = "Marcando" })
+var marcando = new ActionNode(function(_actor) { _actor.decision = "Marcando" }, 0, 5)
 var esperando = new ActionNode(function(_actor) { _actor.decision = "Esperando" })
 
 var check_goal_distance = new DecisionNode(
@@ -91,6 +87,18 @@ var check_goal_distance = new DecisionNode(
 	shoot_node, 
 	go_to_goal_node
 );
+
+var is_shot_node = new DecisionNode(
+	function (_actor) {
+		if (current_shoot_state == SHOOT_STATE.SHOT) {
+			shot(_actor);
+			return true;	
+		}
+		return false;
+	},
+	esperando,
+	check_goal_distance
+)
 
 var teamplayer_free_node = new DecisionNode(
 	function(_actor) {
@@ -105,7 +113,7 @@ var sunrrounded_node = new DecisionNode(
 		return is_surrounded(_actor.opponent_team_obj, 32);
 	}, 
 	teamplayer_free_node,
-	check_goal_distance
+	is_shot_node
 );	
 
 var team_with_pos_node = new DecisionNode(

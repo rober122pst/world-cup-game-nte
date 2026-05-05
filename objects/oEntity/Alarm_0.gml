@@ -1,1 +1,1 @@
-state = free_state;
+global.with_poss = noone;

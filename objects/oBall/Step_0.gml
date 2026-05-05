@@ -1,5 +1,5 @@
-x = clamp(x, 0, room_width);
-y = clamp(y, 0, room_height);
+state();
+
 
 if (jump) {
 	zspd = -6;
@@ -16,6 +16,10 @@ if ((z + zspd) > 0) {
 
 speed = lerp(speed, 0, fric);
 if (speed <= 0) {
-	show_debug_message(point_distance(x_init, y_init, x, y));
+	//show_debug_message(point_distance(x_init, y_init, x, y));
 }
 z += zspd;
+
+
+x = clamp(x, 0, room_width);
+y = clamp(y, 0, room_height);

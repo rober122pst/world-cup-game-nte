@@ -10,7 +10,7 @@ draw_set_colour(c_white);
 draw_self();
 
 if(current_shoot_state == SHOOT_STATE.SHOOTING) {
-	draw_healthbar(x-16,y-36,x+16,y-32,(force/max_force)*100,c_black,c_red,c_green,0,1,1);	
+	draw_healthbar(x-8,y-20,x+8,y-19,(force/max_force)*100,c_black,c_red,c_green,0,1,1);	
 }
 
 

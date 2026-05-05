@@ -34,6 +34,7 @@ function ball_distance() {
 }
 
 function can_shoot(_goal) {
+	
 	var dist = goal_distance(_goal);
 	var dir = sign(_goal.x - x);
 	return (dist.angle >= 24 && dist.goal_dist <= 135 && dir == image_xscale);
@@ -97,7 +98,7 @@ function teamplayer_is_free(_teamplayer_obj, _opponent_player) {
 	if (teamplayer == noone) return false;
 	
 	if (teamplayer.distance <= 160) {
-		var col = collision_line(x, y, teamplayer.x, teamplayer.y, _opponent_player, false, true);
+		var col = collision_line(x, y, teamplayer.teamplayer.x, teamplayer.teamplayer.y, _opponent_player, false, true);
 		if (col) {
 			return false;	
 		} else {
