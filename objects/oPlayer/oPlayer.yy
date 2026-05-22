@@ -36,6 +36,9 @@
     "name":"sprPlayerDown",
     "path":"sprites/sprPlayerDown/sprPlayerDown.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"sprPlayerCollision",
+    "path":"sprites/sprPlayerCollision/sprPlayerCollision.yy",
+  },
   "visible":true,
 }

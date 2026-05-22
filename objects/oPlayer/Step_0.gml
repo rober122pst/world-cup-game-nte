@@ -1,5 +1,4 @@
 ai_tree = noone;
-event_inherited();
 state();
 
 dx = KEY_RIGHT - KEY_LEFT;

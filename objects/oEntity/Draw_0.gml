@@ -13,7 +13,17 @@ if(current_shoot_state == SHOOT_STATE.SHOOTING) {
 	draw_healthbar(x-8,y-20,x+8,y-19,(force/max_force)*100,c_black,c_red,c_green,0,1,1);	
 }
 
+var u_numColors = shader_get_uniform(shd_palette_swap, "u_numColors");
+var u_orig = shader_get_uniform(shd_palette_swap, "u_colorOrig");
+var u_new = shader_get_uniform(shd_palette_swap, "u_colorNew");
 
+shader_set(shd_palette_swap);
+    shader_set_uniform_i(u_numColors, array_length(shirt.origin_colors) / 4);
+    shader_set_uniform_f_array(u_orig, shirt.origin_colors);
+    shader_set_uniform_f_array(u_new, shirt.new_colors);
+        
+    draw_sprite_ext(sprite_index == sprPlayerIdleSide ? shirt.sprite_idle : shirt.sprite_walk, image_index, x, y, image_xscale, image_yscale, image_angle, c_white, image_alpha);
+shader_reset();
 #region DEBUG
 
 if (global.debug) {
@@ -33,7 +43,7 @@ if (global.debug) {
 		draw_text((x + target.x) / 2, ((y + target.y) / 2) + 16, string(distance.angle) + "°");
 	}
 
-	var _radius = 32;
+	var _radius = 16;
 	var _is_surrounded = is_surrounded(opponent_team_obj, _radius);
 
 	draw_circle(x, y, _radius, 1);

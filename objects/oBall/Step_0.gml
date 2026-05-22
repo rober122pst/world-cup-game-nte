@@ -1,5 +1,7 @@
 state();
 
+global.team_player_nearest = instance_nearest(x, y, oTeamPlayer);
+global.opponent_nearest = instance_nearest(x, y, oOpponentPlayer);
 
 if (jump) {
 	zspd = -6;
