@@ -2,9 +2,7 @@
   "$GMObject":"",
   "%Name":"oPlayer",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"oPlayer",
@@ -13,7 +11,10 @@
     "name":"Objects",
     "path":"folders/Objects.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"oTeamPlayer",
+    "path":"objects/oTeamPlayer/oTeamPlayer.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -35,6 +36,9 @@
     "name":"sprPlayerDown",
     "path":"sprites/sprPlayerDown/sprPlayerDown.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"sprPlayerCollision",
+    "path":"sprites/sprPlayerCollision/sprPlayerCollision.yy",
+  },
   "visible":true,
 }
