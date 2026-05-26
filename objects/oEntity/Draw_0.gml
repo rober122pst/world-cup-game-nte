@@ -27,7 +27,7 @@ shader_reset();
 #region DEBUG
 
 if (global.debug) {
-	if (target) {
+	if (target != noone && instance_exists(target)) {
 		var distance = goal_distance(target);
 
 		draw_triangle(x, y, target.top_post.x, target.top_post.y, target.bottom_post.x, target.bottom_post.y, 1);

@@ -63,6 +63,7 @@
     {"id":{"name":"sprPlayerIdleUp","path":"sprites/sprPlayerIdleUp/sprPlayerIdleUp.yy",},},
     {"id":{"name":"sprPlayerIndicator","path":"sprites/sprPlayerIndicator/sprPlayerIndicator.yy",},},
     {"id":{"name":"sprPlayerSide","path":"sprites/sprPlayerSide/sprPlayerSide.yy",},},
+    {"id":{"name":"sprPlayerTackle","path":"sprites/sprPlayerTackle/sprPlayerTackle.yy",},},
     {"id":{"name":"sprPlayerUp","path":"sprites/sprPlayerUp/sprPlayerUp.yy",},},
     {"id":{"name":"sprShirtPatternChess","path":"sprites/sprShirtPatternChess/sprShirtPatternChess.yy",},},
     {"id":{"name":"sprShirtPatternCross","path":"sprites/sprShirtPatternCross/sprShirtPatternCross.yy",},},
