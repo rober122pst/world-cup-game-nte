@@ -2,7 +2,6 @@ function get_shirt(_team){
 	var _origin_black = [
 		0, 0, 0, 1.0,
 	]
-	
 	var _origin_base = [
 		255/255, 0, 0, 1.0, // Vermelho base
 		219/255, 0, 0, 1.0, // Vermelho médio
@@ -28,6 +27,16 @@ function get_shirt(_team){
 	];
 	
 	//////////////////////////////////////////
+	var _ciano = [
+	12/225, 117/225, 104/225, 1.0,//ciano
+	172/225, 89/225, 33/225, 1.0,//ciano medio
+	172/225, 87/225, 3/225, 1.0,//ciano escuro
+	];
+	var _red =  [
+	143/225, 54/255, 54/225, 1.0,//vermelho base
+	147/255, 65/255, 28/255, 1.0,//vermelho medio
+	247/255, 69/255, 8/255, 1.0,//vermelho escuro
+	];
 	
 	var _yellow = [
 		227/255, 209/255, 118/255, 1.0, // Amarelo base
@@ -57,8 +66,16 @@ function get_shirt(_team){
 		47/255, 59/255, 61/255, 1.0, // Contorno
 	]
 	
+	var _blue = [
+	
+	68/255, 74/255, 102/255, 1.0,//azul base
+	
+	
+	];
+	
 	new_colors = [];
 	origin_colors = [];
+	badge = [];
 	sprite_idle = noone;
 	sprite_walk = noone;
 
@@ -71,7 +88,7 @@ function get_shirt(_team){
 			
 			break;
 		case "Argentina":
-			var badge = [];
+			badge = [];
 			array_copy(badge, 0, _yellow, 0, 4);
 			new_colors = array_concat(_white, _sky_blue, badge, _black);
 			origin_colors = array_concat(_origin_base, _origin_second, _origin_badge, _origin_black);
@@ -79,6 +96,48 @@ function get_shirt(_team){
 			sprite_walk = sprShirtPatternVerticalThinWalk;
 			
 			break;
+		case "Croatia":
+			badge = [];
+			array_copy(badge, 0, _sky_blue, 0, 4);
+			new_colors = array_concat(_white, _origin_base, badge, _black);
+			origin_colors = array_concat(_origin_base, _origin_second, _origin_badge, _origin_black);
+			sprite_idle = sprShirtPatternChess;
+			sprite_walk = sprShirtPatternDefaultWalk;//
+			break;
+		case "Colombia":
+			badge = [];
+			array_copy(badge, 0, _sky_blue, 0,4);
+			new_colors = array_concat(_yellow, _origin_base, badge, _black);
+			origin_colors = array_concat(_origin_base, _origin_second, _origin_badge, _origin_black);
+			sprite_idle = sprShirtPatternDefault;
+			sprite_walk = sprShirtPatternDefaultWalk;
+			
+			break;
+			case "French":
+			badge = [];
+			array_copy(badge,0, _sky_blue,0,4);
+			new_colors = array_concat(_blue, _yellow, badge, _black);
+			origin_colors = array_concat(_origin_base, _origin_second, _origin_badge, _origin_black);
+			sprite_idle = sprShirtPatternDefault;
+			sprite_walk = sprShirtPatternDefaultWalk;
+			break;
+			case "German":
+			badge = [];
+			array_copy(badge, 0, _sky_blue, 0,4);
+			new_colors = array_concat(_white, _red, badge, _black);
+			origin_colors = array_concat(_origin_base, _origin_second, _origin_badge, _origin_black);
+			sprite_idle = sprShirtPatternDefault
+			sprite_walk = sprShirtPatternDefaultWalk
+			break;
+			case"Mexico":
+			badge = [];
+			array_copy(badge, 0, _sky_blue,0,4);
+			new_colors = array_concat(_ciano, _red,badge, _black);
+			origin_colors = array_concat(_origin_base, _origin_second, _origin_badge, _origin_black);
+			sprite_idle = sprShirtPatternDefault
+			sprite_walk = sprShirtPatternDefaultWalk
+			break;
+			
 	}
 	
 	return { new_colors, origin_colors, sprite_idle, sprite_walk };
