@@ -36,6 +36,7 @@
     {"name":"sprPlayerIdleUp","order":5,"path":"sprites/sprPlayerIdleUp/sprPlayerIdleUp.yy",},
     {"name":"sprPlayerIndicator","order":11,"path":"sprites/sprPlayerIndicator/sprPlayerIndicator.yy",},
     {"name":"sprPlayerSide","order":4,"path":"sprites/sprPlayerSide/sprPlayerSide.yy",},
+    {"name":"sprPlayerTackle","order":13,"path":"sprites/sprPlayerTackle/sprPlayerTackle.yy",},
     {"name":"sprPlayerUp","order":3,"path":"sprites/sprPlayerUp/sprPlayerUp.yy",},
     {"name":"sprShirtPatternChess","order":4,"path":"sprites/sprShirtPatternChess/sprShirtPatternChess.yy",},
     {"name":"sprShirtPatternCross","order":7,"path":"sprites/sprShirtPatternCross/sprShirtPatternCross.yy",},
