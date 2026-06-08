@@ -15,11 +15,11 @@ function input_direction_or_facing(_actor, _input_x, _input_y) {
 }
 
 function clamp_to_field_x(_x) {
-	return clamp(_x, global.field_left + 8, global.field_right - 8);
+	return clamp(_x, global.field_left + 4, global.field_right - 4);
 }
 
 function clamp_to_field_y(_y) {
-	return clamp(_y, global.field_top + 10, global.field_bottom - 10);
+	return clamp(_y, global.field_top + 16, global.field_bottom - 16);
 }
 
 function player_move() {
