@@ -1,5 +1,12 @@
 {
   "FolderOrderSettings":[
+    {"name":"arqui","order":17,"path":"folders/Sprites/arqui.yy",},
+    {"name":"script","order":2,"path":"folders/Sprites/arqui/script.yy",},
+    {"name":"sprite","order":1,"path":"folders/Sprites/arqui/sprite.yy",},
+    {"name":"collision","order":18,"path":"folders/Sprites/collision.yy",},
+    {"name":"corner flags","order":20,"path":"folders/Sprites/corner flags.yy",},
+    {"name":"flags","order":16,"path":"folders/Sprites/flags.yy",},
+    {"name":"panel","order":19,"path":"folders/Sprites/panel.yy",},
     {"name":"Shirts","order":12,"path":"folders/Sprites/Shirts.yy",},
   ],
   "ResourceOrderSettings":[
@@ -16,10 +23,13 @@
     {"name":"get_shirt","order":4,"path":"scripts/get_shirt/get_shirt.yy",},
     {"name":"player_functions","order":1,"path":"scripts/player_functions/player_functions.yy",},
     {"name":"player_sensors","order":2,"path":"scripts/player_sensors/player_sensors.yy",},
+    {"name":"arquibancadaFINAL","order":12,"path":"sprites/arquibancadaFINAL/arquibancadaFINAL.yy",},
+    {"name":"spr_brasil_flag","order":1,"path":"sprites/spr_brasil_flag/spr_brasil_flag.yy",},
     {"name":"sprAim","order":9,"path":"sprites/sprAim/sprAim.yy",},
     {"name":"sprBall","order":1,"path":"sprites/sprBall/sprBall.yy",},
     {"name":"sprBar","order":2,"path":"sprites/sprBar/sprBar.yy",},
     {"name":"sprField","order":8,"path":"sprites/sprField/sprField.yy",},
+    {"name":"Sprite29","order":1,"path":"sprites/Sprite29/Sprite29.yy",},
     {"name":"sprPlayerCollision","order":10,"path":"sprites/sprPlayerCollision/sprPlayerCollision.yy",},
     {"name":"sprPlayerIdleDown","order":6,"path":"sprites/sprPlayerIdleDown/sprPlayerIdleDown.yy",},
     {"name":"sprPlayerIdleSide","order":7,"path":"sprites/sprPlayerIdleSide/sprPlayerIdleSide.yy",},
