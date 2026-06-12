@@ -1,5 +1,5 @@
-prev_x = x;
-prev_y = y;
+var _from_x = prev_x;
+var _from_y = prev_y;
 
 state();
 
@@ -29,7 +29,9 @@ if ((z + zspd) > 0) {
 speed = lerp(speed, 0, fric);
 z += zspd;
 
-x = clamp(x, global.field_left, global.field_right);
-y = clamp(y, global.field_top, global.field_bottom);
-
+ball_hit_field_wall(_from_x, _from_y);
 goal_frame_collision();
+
+prev_x = x;
+prev_y = y;
+

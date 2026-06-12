@@ -1,22 +1,52 @@
 randomise();
 
+audio_group_load(sound_effects);
+
 global.with_poss = noone;
 
-global.team_home = "Brasil";
+global.team_home = "Brazil";
 global.team_away = "Argentina";
+
+global.scores = [0, 0];
+prev_goal_score = [0, 0];
 
 global.debug = false;
 
 global.field_left = 0;
 global.field_top = 0;
-global.field_right = sprite_get_width(sprField);
-global.field_bottom = sprite_get_height(sprField);
+global.field_right = room_width;
+global.field_bottom = room_height;
+global.field_tl_x = global.field_left;
+global.field_tl_y = global.field_top;
+global.field_tr_x = global.field_right;
+global.field_tr_y = global.field_top;
+global.field_bl_x = global.field_left;
+global.field_bl_y = global.field_bottom;
+global.field_br_x = global.field_right;
+global.field_br_y = global.field_bottom;
+global.field_m_l = 0;
+global.field_m_r = 0;
+global.field_b_l = global.field_top;
+global.field_b_r = global.field_top;
 global.field_middle = global.field_right * 0.5;
+global.field_center_y = global.field_bottom * 0.5;
 
 global.pass_assist_strength = 0.72;
 global.shoot_assist_strength = 0.46;
 
 global.player_controlling = noone;
+
+global.timer = 0;
+
+enum MATCH_STATE {
+	STARTING,
+	PLAYING,
+	GOAL
+}
+
+global.match_state = MATCH_STATE.STARTING;
+
+alarm[0] = game_get_speed(gamespeed_fps) * 3;
 
 can_swap = true;
 control_switch_timer = 0;

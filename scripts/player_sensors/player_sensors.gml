@@ -380,8 +380,9 @@ function find_support_space(_actor) {
 		var _cy = _holder.y + lengthdir_y(_forward_dist, _goal_dir) + lengthdir_y(_wide_dist * _lane, _side_dir);
 
 		_cy = lerp(_cy, _actor.initial_y, 0.22);
-		_cx = clamp(_cx, global.field_left + 18, global.field_right - 18);
-		_cy = clamp(_cy, global.field_top + 18, global.field_bottom - 18);
+		var _field_pos = clamp_to_field_point(_cx, _cy, 18, 18, 18);
+		_cx = _field_pos.x;
+		_cy = _field_pos.y;
 
 		var _space = nearest_opponent_distance_at(_cx, _cy, _actor.opponent_team_obj);
 		var _pass_dist = point_distance(_holder.x, _holder.y, _cx, _cy);

@@ -34,5 +34,5 @@
     "path":"sprites/sprAim/sprAim.yy",
   },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }

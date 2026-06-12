@@ -6,7 +6,7 @@ my_team = global.team_away;
 
 teamplayer_obj = oOpponentPlayer;
 
-shirt = get_shirt("Mexico");
+shirt = get_shirt(my_team);
 
 
  
