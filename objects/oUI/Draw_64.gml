@@ -3,9 +3,9 @@ draw_sprite_ext(sprScoreboard, 0, view_center, 16, scale, scale, 0, c_white, 1);
 var _w_scoreboard = sprite_get_width(sprScoreboard)*scale;
 var _xx = view_center - (_w_scoreboard / 2) + 1*scale;
 var _yy = 16 + 1*scale;
-draw_sprite_ext(sprTeamScoreLeft, 0, _xx, _yy, scale, scale, 0, c_white, 1);
+draw_sprite_ext(sprTeamScoreLeft, oTeams.teams_selected[0]._id, _xx, _yy, scale, scale, 0, c_white, 1);
 _xx = view_center + (_w_scoreboard / 2) - 1*scale;
-draw_sprite_ext(sprTeamScoreRight, 1, _xx, _yy, scale, scale, 0, c_white, 1);
+draw_sprite_ext(sprTeamScoreRight, oTeams.teams_selected[1]._id, _xx, _yy, scale, scale, 0, c_white, 1);
 
 draw_set_halign(fa_right);
 draw_set_font(font_score);

@@ -1,11 +1,13 @@
 randomise();
 
 audio_group_load(sound_effects);
+stadium_ambience = audio_play_sound(sndStadiumCrowd, 0, 1);
 
 global.with_poss = noone;
 
-global.team_home = "Brazil";
-global.team_away = "Argentina";
+global.team_home = oTeams.teams_selected[0].name;
+global.team_away = oTeams.teams_selected[1].name;
+global.team_goal = "";
 
 global.scores = [0, 0];
 prev_goal_score = [0, 0];

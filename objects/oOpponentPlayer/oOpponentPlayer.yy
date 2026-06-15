@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprPlayerDown",
-    "path":"sprites/sprPlayerDown/sprPlayerDown.yy",
+    "name":"sprPlayerIdleSide",
+    "path":"sprites/sprPlayerIdleSide/sprPlayerIdleSide.yy",
   },
   "spriteMaskId":{
     "name":"sprPlayerCollision",

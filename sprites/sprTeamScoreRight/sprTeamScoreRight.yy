@@ -14,10 +14,10 @@
   "frames":[
     {"$GMSpriteFrame":"v1","%Name":"7a79cc23-7cdc-42bb-9b7a-f49ccba8dcaf","name":"7a79cc23-7cdc-42bb-9b7a-f49ccba8dcaf","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"dba2650c-7a19-4d16-a4f0-fc0cfab4d087","name":"dba2650c-7a19-4d16-a4f0-fc0cfab4d087","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"ba6a9e43-fca2-4bb5-9db0-513a811861ca","name":"ba6a9e43-fca2-4bb5-9db0-513a811861ca","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"f3c7d0d6-2083-4d38-b307-ce01da7362a4","name":"f3c7d0d6-2083-4d38-b307-ce01da7362a4","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"b7ae7a65-822a-4261-a07d-953d772e4d83","name":"b7ae7a65-822a-4261-a07d-953d772e4d83","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"v1","%Name":"e1dac9bc-5546-47b2-8b2e-5a2f7e12aa7e","name":"e1dac9bc-5546-47b2-8b2e-5a2f7e12aa7e","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"f3c7d0d6-2083-4d38-b307-ce01da7362a4","name":"f3c7d0d6-2083-4d38-b307-ce01da7362a4","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"ba6a9e43-fca2-4bb5-9db0-513a811861ca","name":"ba6a9e43-fca2-4bb5-9db0-513a811861ca","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"b7ae7a65-822a-4261-a07d-953d772e4d83","name":"b7ae7a65-822a-4261-a07d-953d772e4d83","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -80,17 +80,17 @@
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"dba2650c-7a19-4d16-a4f0-fc0cfab4d087","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"5f5bd13e-15e1-45d2-8ed0-55a967ba92a7","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ba6a9e43-fca2-4bb5-9db0-513a811861ca","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"d7d8e51f-92aa-4059-a913-f6ae72d13ce0","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"e1dac9bc-5546-47b2-8b2e-5a2f7e12aa7e","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"c603003b-d0d3-4c5c-99ae-cf0a245ff8d3","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"f3c7d0d6-2083-4d38-b307-ce01da7362a4","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"04c43ba7-d929-4950-b074-924c6c5d72aa","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"b7ae7a65-822a-4261-a07d-953d772e4d83","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"d099dc7a-7c6d-4ff7-a04d-b564d7fc7e0d","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"ba6a9e43-fca2-4bb5-9db0-513a811861ca","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"d7d8e51f-92aa-4059-a913-f6ae72d13ce0","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"e1dac9bc-5546-47b2-8b2e-5a2f7e12aa7e","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"c603003b-d0d3-4c5c-99ae-cf0a245ff8d3","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"b7ae7a65-822a-4261-a07d-953d772e4d83","path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"d099dc7a-7c6d-4ff7-a04d-b564d7fc7e0d","IsCreationKey":false,"Key":5.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

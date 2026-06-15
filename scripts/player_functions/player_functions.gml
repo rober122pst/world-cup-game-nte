@@ -340,7 +340,7 @@ function set_ball_owner(_actor) {
 function release_ball(_actor, _kick_force, _kick_dir, _jump = false) {
 	if (_actor == noone || !instance_exists(_actor)) return;
 
-	audio_play_sound(sndBallKick, 1, 0, 1, 0, random_range(0.8, 1.2));
+	audio_play_sound(sndBallKick, 1, 0, 1, 0, random_range(0.95, 1.05));
 
 	with (_actor) {
 		has_ball = false;
@@ -975,8 +975,8 @@ function ball_inside_goal_mouth(_side, _y, _x) {
 			var _ball = id;
 
             if (_same_side) {
-                var upper_y_limit = min(top_post.y, bottom_post.y);
-                var lower_y_limit = max(top_post.y, bottom_post.y);
+                var upper_y_limit = top_post.y;
+                var lower_y_limit = bottom_post.y;
                 var goal_line_x = top_post.x;
 
                 var _y_ok = (_y >= upper_y_limit && _y <= lower_y_limit);
@@ -1002,7 +1002,7 @@ function ball_inside_goal_mouth(_side, _y, _x) {
 function ball_hit_field_wall(_from_x, _from_y) {
 	refresh_field_bounds();
 
-	var _wall_height_z = variable_instance_exists(id, "wall_height_z") ? wall_height_z : -18;
+	var _wall_height_z = variable_instance_exists(id, "wall_height_z") ? wall_height_z : -8;
 	var _wall_margin = variable_instance_exists(id, "wall_margin") ? wall_margin : 0;
 
 	if (owner != noone) {
@@ -1029,7 +1029,7 @@ function ball_hit_field_wall(_from_x, _from_y) {
 		_side = "right";
 	}
 	
-	if (goal_in_net(_side)) return;
+	if (goal_in_net(_side, y, x)) return;
 
 	if (!field_point_inside(_from_x, _from_y, _wall_margin, 0, 0)) return;
     
@@ -1072,8 +1072,8 @@ function ball_hit_field_wall(_from_x, _from_y) {
 	}
 }
 
-function goal_in_net(_side) {
-	var inside_goal = ball_inside_goal_mouth(_side, y, x);
+function goal_in_net(_side, _y, _x) {
+	var inside_goal = ball_inside_goal_mouth(_side, _y, _x);
 	if (inside_goal) {
 	    // --- A BOLA ENTROU NO GOL: FÍSICA DA REDE ---
 	    var net_depth = 21;   // Profundidade do fundo da rede (Ajuste para o visual do seu jogo)
@@ -1084,16 +1084,16 @@ function goal_in_net(_side) {
 	        var _same_side = (_side == "left" && _left_goal) || (_side == "right" && !_left_goal);
 
 	        if (_same_side && instance_exists(top_post)) {
-	            var upper_y_limit = min(top_post.y, bottom_post.y);
-	            var lower_y_limit = max(top_post.y, bottom_post.y);
+	            var upper_y_limit = top_post.y;
+	            var lower_y_limit = bottom_post.y;
 	            var goal_line_x = top_post.x; 
-
+				
 	            // 1. Colisão com o Fundo da Rede (Eixo X)
 	            if (_side == "left") {
 	                var back_net_x = goal_line_x - net_depth;
-	                if (other.x < back_net_x) {
-	                    other.x = back_net_x;
+	                if (_x < back_net_x) {
 						audio_play_sound(sndGoalNet, 1, 0);
+	                    other.x = back_net_x;
 	                    other.speed *= -net_bounce; // Inverte e amortece
 	                }
 					
@@ -1102,9 +1102,9 @@ function goal_in_net(_side) {
 					}
 	            } else if (_side == "right") {
 	                var back_net_x = goal_line_x + net_depth;
-	                if (other.x > back_net_x) {
-	                    other.x = back_net_x;
+	                if (_x > back_net_x) {
 						audio_play_sound(sndGoalNet, 1, 0);
+	                    other.x = back_net_x;	
 	                    other.speed *= -net_bounce; // Inverte e amortece
 	                }
 					
@@ -1115,19 +1115,23 @@ function goal_in_net(_side) {
 
 	            // 2. Colisão com as Laterais da Rede (Eixo Y)
 	            // Impede que a bola vaze por "dentro" do gol caso bata na malha lateral
-	            if (other.y < upper_y_limit) {
+	            if (_y < upper_y_limit) {
+					audio_play_sound(sndGoalNet, 1, 0);
 	                other.y = upper_y_limit;
-					audio_play_sound(sndGoalNet, 1, 0);
+					
 	                other.speed *= -net_bounce;
-	            } else if (other.y > lower_y_limit) {
-	                other.y = lower_y_limit;
+	            } else if (_y > lower_y_limit) {
 					audio_play_sound(sndGoalNet, 1, 0);
+	                other.y = lower_y_limit;
+					
 	                other.speed *= -net_bounce;
 	            }
-	        }
+				
+				global.match_state = MATCH_STATE.GOAL;
+	        }	
 	    }
 		
-		global.match_state = MATCH_STATE.GOAL;		
+			
 	    return true; 
 	}
 }
@@ -1171,6 +1175,7 @@ function goal_frame_collision() {
 						var _hit_y = _top_hit ? other.top_post.y : other.bottom_post.y;
 						x = prev_x;
 						y = prev_y;
+						audio_play_sound(sndGoalpost, 1, 0);
 						ball_bounce_from_frame(point_direction(_hit_x, _hit_y, x, y), 0.58);
 					}
 
