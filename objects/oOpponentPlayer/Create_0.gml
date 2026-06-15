@@ -8,5 +8,6 @@ teamplayer_obj = oOpponentPlayer;
 
 shirt = get_shirt(my_team);
 
-
+image_xscale = -1;
+angle = 180;
  

@@ -37,6 +37,7 @@
     {"name":"get_shirt","order":4,"path":"scripts/get_shirt/get_shirt.yy",},
     {"name":"player_functions","order":1,"path":"scripts/player_functions/player_functions.yy",},
     {"name":"player_sensors","order":2,"path":"scripts/player_sensors/player_sensors.yy",},
+    {"name":"sndCollect","order":4,"path":"sounds/sndCollect/sndCollect.yy",},
     {"name":"sndGoalNet","order":1,"path":"sounds/sndGoalNet/sndGoalNet.yy",},
     {"name":"sndGoalpost","order":2,"path":"sounds/sndGoalpost/sndGoalpost.yy",},
     {"name":"sndStadiumCrowd","order":3,"path":"sounds/sndStadiumCrowd/sndStadiumCrowd.yy",},
@@ -68,6 +69,7 @@
     {"name":"sprShirtPatternDiagonal","order":6,"path":"sprites/sprShirtPatternDiagonal/sprShirtPatternDiagonal.yy",},
     {"name":"sprShirtPatternHorizontal","order":3,"path":"sprites/sprShirtPatternHorizontal/sprShirtPatternHorizontal.yy",},
     {"name":"sprShirtPatternHorizontalSingle","order":2,"path":"sprites/sprShirtPatternHorizontalSingle/sprShirtPatternHorizontalSingle.yy",},
+    {"name":"sprShirtPatternHorizontalWalk","order":13,"path":"sprites/sprShirtPatternHorizontalWalk/sprShirtPatternHorizontalWalk.yy",},
     {"name":"sprShirtPatternVertical","order":1,"path":"sprites/sprShirtPatternVertical/sprShirtPatternVertical.yy",},
     {"name":"sprShirtPatternVerticalThin","order":8,"path":"sprites/sprShirtPatternVerticalThin/sprShirtPatternVerticalThin.yy",},
     {"name":"sprShirtPatternVerticalThinWalk","order":10,"path":"sprites/sprShirtPatternVerticalThinWalk/sprShirtPatternVerticalThinWalk.yy",},
@@ -76,5 +78,6 @@
     {"name":"sprTeamScoreLeft","order":1,"path":"sprites/sprTeamScoreLeft/sprTeamScoreLeft.yy",},
     {"name":"sprTeamScoreRight","order":2,"path":"sprites/sprTeamScoreRight/sprTeamScoreRight.yy",},
     {"name":"sprTimeFont","order":4,"path":"sprites/sprTimeFont/sprTimeFont.yy",},
+    {"name":"sprVarScreen","order":30,"path":"sprites/sprVarScreen/sprVarScreen.yy",},
   ],
 }

@@ -1099,6 +1099,7 @@ function goal_in_net(_side, _y, _x) {
 					
 					if (global.match_state != MATCH_STATE.GOAL) {
 						global.scores[1]++;
+						global.match_state = MATCH_STATE.GOAL;
 					}
 	            } else if (_side == "right") {
 	                var back_net_x = goal_line_x + net_depth;
@@ -1109,7 +1110,12 @@ function goal_in_net(_side, _y, _x) {
 	                }
 					
 					if (global.match_state != MATCH_STATE.GOAL) {
-						global.scores[0]++;
+						if (array_length(global.collected) == array_length(global.current_syllable)) {
+							global.scores[0]++;
+							global.match_state = MATCH_STATE.GOAL;
+						} else {
+							global.match_state = MATCH_STATE.VAR;
+						}
 					}
 	            }
 
@@ -1126,8 +1132,6 @@ function goal_in_net(_side, _y, _x) {
 					
 	                other.speed *= -net_bounce;
 	            }
-				
-				global.match_state = MATCH_STATE.GOAL;
 	        }	
 	    }
 		

@@ -124,7 +124,7 @@ function get_shirt(_team){
 			new_colors = array_concat(_white, _red, badge, _black);
 			origin_colors = array_concat(_origin_base, _origin_second, _origin_badge, _origin_black);
 			sprite_idle = sprShirtPatternHorizontal;
-			sprite_walk = sprShirtPatternDefaultWalk;
+			sprite_walk = sprShirtPatternHorizontalWalk;
 			break;
 			
 	}

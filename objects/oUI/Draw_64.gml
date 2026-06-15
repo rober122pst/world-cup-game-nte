@@ -23,11 +23,40 @@ draw_set_halign(fa_center);
 draw_text_transformed(view_center + 6*scale, _yy + 22*scale, two_digits(minutes) + ":" + two_digits(seconds), scale, scale, 0);
 draw_set_halign(fa_left);
 
+draw_set_font(font);
+
+array_map(
+	global.current_syllable,
+	function(_element, _index) {
+		var container = (array_length(global.current_syllable))*48*scale;
+		var _xx = view_center - container/2;
+		
+		if (array_contains(global.collected, _element)) {
+			draw_set_colour(c_white);	
+		} else {
+			draw_set_colour(#2f3b3d);	
+		}
+		
+		draw_text_transformed(_xx + _index*48*scale, view_height - 32*scale, _element, scale, scale, 0);
+	}
+);
+
+
+
+
 if (global.match_state == MATCH_STATE.GOAL) {
 	draw_set_colour(c_black);
 	draw_set_alpha(0.5);
 	draw_rectangle(0, 0, view_width, view_height, 0);
 	draw_sprite_ext(sprGoalText, anim_frame, view_center, view_middle, scale, scale, 0, c_white, 1);
 }
+
+if (global.match_state == MATCH_STATE.VAR) {
+	draw_set_colour(c_black);
+	draw_set_alpha(0.5);
+	draw_rectangle(0, 0, view_width, view_height, 0);
+	draw_sprite_ext(sprVarScreen, 0, 0, 0, scale, scale, 0, c_white, 1);	
+}
+
 draw_set_alpha(1);
 draw_set_colour(c_white);

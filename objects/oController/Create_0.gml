@@ -43,7 +43,8 @@ global.timer = 0;
 enum MATCH_STATE {
 	STARTING,
 	PLAYING,
-	GOAL
+	GOAL,
+	VAR,
 }
 
 global.match_state = MATCH_STATE.STARTING;
@@ -53,3 +54,26 @@ alarm[0] = game_get_speed(gamespeed_fps) * 3;
 can_swap = true;
 control_switch_timer = 0;
 last_player_with_control = noone;
+
+syllables = [
+	["BO", "LA"],
+	["CAM", "PO"],
+	["FU", "TE", "BOL"],
+	["BAR", "RA"],
+	["RE", "DE"],
+	["ÁR", "BI", "TRO"],
+	["JO", "GA", "DOR"],
+	["TI", "ME"],
+	["GOL"],
+	["CHU", "TE"],
+	["GO", "LEI", "RO"],
+	["CA", "MI", "SA"],
+	["COR", "RER"],
+	["CHU", "TAR"],
+	["TA", "ÇA"],
+	["TOR", "CI", "DA"],
+	["CHU", "TEI", "RA"],
+];
+
+global.collected = [];
+global.current_syllable = syllables[irandom_range(0, array_length(syllables) - 1)];

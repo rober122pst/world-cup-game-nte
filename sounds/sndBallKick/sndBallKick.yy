@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.8159864,
+  "duration":0.7659184,
   "exportDir":"",
   "name":"sndBallKick",
   "parent":{
