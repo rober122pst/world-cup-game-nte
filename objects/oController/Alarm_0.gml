@@ -1,0 +1,1 @@
+global.match_state = MATCH_STATE.PLAYING;

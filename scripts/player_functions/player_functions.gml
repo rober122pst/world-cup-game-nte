@@ -14,12 +14,194 @@ function input_direction_or_facing(_actor, _input_x, _input_y) {
 	return _actor.angle;
 }
 
-function clamp_to_field_x(_x) {
-	return clamp(_x, global.field_left + 8, global.field_right - 8);
+function refresh_field_bounds() {
+	var _tl = instance_find(oFieldTL, 0);
+	var _tr = instance_find(oFieldTR, 0);
+	var _bl = instance_find(oFieldBL, 0);
+	var _br = instance_find(oFieldBR, 0);
+
+	if (_tl == noone || _tr == noone || _bl == noone || _br == noone) {
+		var _missing_fields = !variable_global_exists("field_left") || !variable_global_exists("field_top") || !variable_global_exists("field_right") || !variable_global_exists("field_bottom");
+		var _invalid_fields = false;
+
+		if (!_missing_fields) {
+			_invalid_fields = global.field_right <= global.field_left || global.field_bottom <= global.field_top;
+		}
+
+		if (_missing_fields || _invalid_fields) {
+			global.field_left = 0;
+			global.field_top = 0;
+			global.field_right = room_width;
+			global.field_bottom = room_height;
+			global.field_middle = room_width * 0.5;
+		}
+
+		global.field_tl_x = global.field_left;
+		global.field_tl_y = global.field_top;
+		global.field_tr_x = global.field_right;
+		global.field_tr_y = global.field_top;
+		global.field_bl_x = global.field_left;
+		global.field_bl_y = global.field_bottom;
+		global.field_br_x = global.field_right;
+		global.field_br_y = global.field_bottom;
+		global.field_center_y = (global.field_top + global.field_bottom) * 0.5;
+		global.field_m_l = 0;
+		global.field_m_r = 0;
+		global.field_b_l = global.field_top;
+		global.field_b_r = global.field_top;
+
+		return false;
+	}
+
+	global.field_tl_x = _tl.x;
+	global.field_tl_y = _tl.y;
+	global.field_tr_x = _tr.x;
+	global.field_tr_y = _tr.y;
+	global.field_bl_x = _bl.x;
+	global.field_bl_y = _bl.y;
+	global.field_br_x = _br.x;
+	global.field_br_y = _br.y;
+
+	global.field_left = min(_tl.x, _bl.x);
+	global.field_top = min(_tl.y, _tr.y);
+	global.field_right = max(_tr.x, _br.x);
+	global.field_bottom = max(_bl.y, _br.y);
+	global.field_middle = (global.field_left + global.field_right) * 0.5;
+	global.field_center_y = (global.field_top + global.field_bottom) * 0.5;
+
+	global.field_m_l = (_bl.x != _tl.x) ? ((_bl.y - _tl.y) / (_bl.x - _tl.x)) : 0;
+	global.field_m_r = (_br.x != _tr.x) ? ((_br.y - _tr.y) / (_br.x - _tr.x)) : 0;
+	global.field_b_l = _tl.y - global.field_m_l * _tl.x;
+	global.field_b_r = _tr.y - global.field_m_r * _tr.x;
+
+	return true;
 }
 
-function clamp_to_field_y(_y) {
-	return clamp(_y, global.field_top + 10, global.field_bottom - 10);
+function field_side_x_at_y(_top_x, _top_y, _bottom_x, _bottom_y, _m, _b, _y) {
+	if (abs(_m) > 0.0001) {
+		return (_y - _b) / _m;
+	}
+
+	var _height = _bottom_y - _top_y;
+	if (abs(_height) <= 0.0001) return _top_x;
+
+	var _t = clamp((_y - _top_y) / _height, 0, 1);
+	return lerp(_top_x, _bottom_x, _t);
+}
+
+function field_left_at_y(_y) {
+	refresh_field_bounds();
+	return field_side_x_at_y(global.field_tl_x, global.field_tl_y, global.field_bl_x, global.field_bl_y, global.field_m_l, global.field_b_l, _y);
+}
+
+function field_right_at_y(_y) {
+	refresh_field_bounds();
+	return field_side_x_at_y(global.field_tr_x, global.field_tr_y, global.field_br_x, global.field_br_y, global.field_m_r, global.field_b_r, _y);
+}
+
+function clamp_to_field_point(_x, _y, _side_margin = 4, _top_margin = 8, _bottom_margin = 0) {
+	refresh_field_bounds();
+
+	var _top = global.field_top + _top_margin;
+	var _bottom = global.field_bottom - _bottom_margin;
+	var _cy = clamp(_y, _top, _bottom);
+	var _left = field_left_at_y(_cy) + _side_margin;
+	var _right = field_right_at_y(_cy) - _side_margin;
+
+	if (_left > _right) {
+		var _middle = (_left + _right) * 0.5;
+		_left = _middle;
+		_right = _middle;
+	}
+
+	return {
+		x: clamp(_x, _left, _right),
+		y: _cy
+	};
+}
+
+function clamp_to_field_x(_x, _y = undefined, _side_margin = 4) {
+	refresh_field_bounds();
+
+	var _sample_y = is_undefined(_y) ? global.field_center_y : _y;
+	return clamp(_x, field_left_at_y(_sample_y) + _side_margin, field_right_at_y(_sample_y) - _side_margin);
+}
+
+function clamp_to_field_y(_y, _top_margin = 8, _bottom_margin = 0) {
+	refresh_field_bounds();
+	return clamp(_y, global.field_top + _top_margin, global.field_bottom - _bottom_margin);
+}
+
+function field_point_inside(_x, _y, _side_margin = 0, _top_margin = 0, _bottom_margin = 0) {
+	refresh_field_bounds();
+
+	if (_y < global.field_top + _top_margin || _y > global.field_bottom - _bottom_margin) {
+		return false;
+	}
+
+	return _x >= field_left_at_y(_y) + _side_margin && _x <= field_right_at_y(_y) - _side_margin;
+}
+
+function project_velocity_to_line(_vx, _vy, _x1, _y1, _x2, _y2) {
+	var _tx = _x2 - _x1;
+	var _ty = _y2 - _y1;
+	var _len_sq = _tx * _tx + _ty * _ty;
+
+	if (_len_sq <= 0) {
+		return { hspd: 0, vspd: 0 };
+	}
+
+	var _amount = (_vx * _tx + _vy * _ty) / _len_sq;
+	return {
+		hspd: _tx * _amount,
+		vspd: _ty * _amount
+	};
+}
+
+function constrain_field_motion(_x, _y, _hspd, _vspd, _dt, _side_margin = 4, _top_margin = 8, _bottom_margin = 0) {
+	refresh_field_bounds();
+
+	var _next_x = _x + _hspd * _dt;
+	var _next_y = _y + _vspd * _dt;
+	var _top = global.field_top + _top_margin;
+	var _bottom = global.field_bottom - _bottom_margin;
+
+	if (_next_y < _top) {
+		_next_y = _top;
+		if (_vspd < 0) _vspd = 0;
+	} else if (_next_y > _bottom) {
+		_next_y = _bottom;
+		if (_vspd > 0) _vspd = 0;
+	}
+
+	var _left = field_left_at_y(_next_y) + _side_margin;
+	var _right = field_right_at_y(_next_y) - _side_margin;
+
+	if (_left > _right) {
+		var _middle = (_left + _right) * 0.5;
+		_left = _middle;
+		_right = _middle;
+	}
+
+	if (_next_x < _left) {
+		_next_x = _left;
+		var _slide_l = project_velocity_to_line(_hspd, _vspd, global.field_tl_x + _side_margin, global.field_tl_y, global.field_bl_x + _side_margin, global.field_bl_y);
+		_hspd = _slide_l.hspd;
+		_vspd = _slide_l.vspd;
+	} else if (_next_x > _right) {
+		_next_x = _right;
+		var _slide_r = project_velocity_to_line(_hspd, _vspd, global.field_tr_x - _side_margin, global.field_tr_y, global.field_br_x - _side_margin, global.field_br_y);
+		_hspd = _slide_r.hspd;
+		_vspd = _slide_r.vspd;
+	}
+
+	var _point = clamp_to_field_point(_next_x, _next_y, _side_margin, _top_margin, _bottom_margin);
+	return {
+		x: _point.x,
+		y: _point.y,
+		hspd: _hspd,
+		vspd: _vspd
+	};
 }
 
 function player_move() {
@@ -40,11 +222,11 @@ function player_move() {
 		vspd = lerp(vspd, 0, fric);
 	}
 
-	y += vspd * global.dt;
-	x += hspd * global.dt;
-
-	x = clamp_to_field_x(x);
-	y = clamp_to_field_y(y);
+	var _field_motion = constrain_field_motion(x, y, hspd, vspd, global.dt);
+	x = _field_motion.x;
+	y = _field_motion.y;
+	hspd = _field_motion.hspd;
+	vspd = _field_motion.vspd;
 
 	if (abs(hspd) <= .1 && abs(vspd) <= .1) {
 		sprite_index = sprPlayerIdleSide;
@@ -158,6 +340,8 @@ function set_ball_owner(_actor) {
 function release_ball(_actor, _kick_force, _kick_dir, _jump = false) {
 	if (_actor == noone || !instance_exists(_actor)) return;
 
+	audio_play_sound(sndBallKick, 1, 0, 1, 0, random_range(0.95, 1.05));
+
 	with (_actor) {
 		has_ball = false;
 		force = 0;
@@ -205,8 +389,9 @@ function pass_to_teammate(_actor, _receiver, _raw_dir = undefined, _assist = 0.7
 
 	var _distance = point_distance(_actor.x, _actor.y, _receiver.x, _receiver.y);
 	var _lead_time = clamp(_distance / 18, 2, 7);
-	var _target_x = clamp_to_field_x(_receiver.x + _receiver.hspd * _lead_time);
-	var _target_y = clamp_to_field_y(_receiver.y + _receiver.vspd * _lead_time);
+	var _target_pos = clamp_to_field_point(_receiver.x + _receiver.hspd * _lead_time, _receiver.y + _receiver.vspd * _lead_time);
+	var _target_x = _target_pos.x;
+	var _target_y = _target_pos.y;
 	var _target_dir = point_direction(_actor.x, _actor.y, _target_x, _target_y);
 	var _pass_dir = _target_dir;
 
@@ -339,13 +524,12 @@ function finish_tackle_if_hit(_actor) {
 function update_tackle_motion(_actor) {
 	with (_actor) {
 		var _speed = max_spd * 1.75;
-		x += lengthdir_x(_speed, tackle_dir) * global.dt;
-		y += lengthdir_y(_speed, tackle_dir) * global.dt;
-		x = clamp_to_field_x(x);
-		y = clamp_to_field_y(y);
+		var _motion = constrain_field_motion(x, y, lengthdir_x(_speed, tackle_dir), lengthdir_y(_speed, tackle_dir), global.dt);
+		x = _motion.x;
+		y = _motion.y;
 
-		hspd = lengthdir_x(max_spd * 0.75, tackle_dir);
-		vspd = lengthdir_y(max_spd * 0.75, tackle_dir);
+		hspd = _motion.hspd * (0.75 / 1.75);
+		vspd = _motion.vspd * (0.75 / 1.75);
 		sprite_index = sprPlayerSide;
 
 		if (abs(lengthdir_x(1, tackle_dir)) > 0.05) {
@@ -378,7 +562,9 @@ function receive_pass_position(_actor) {
 function freeze(_actor) {
 	with (_actor) {
 		sprite_index = sprPlayerIdleSide;
-		x += .45 * -image_xscale;
+		var _freeze_pos = clamp_to_field_point(x + .45 * -image_xscale, y);
+		x = _freeze_pos.x;
+		y = _freeze_pos.y;
 
 		if (!set_alarm) {
 			// Pausa curta para o chute ter peso sem travar demais o arcade.
@@ -415,9 +601,10 @@ function shape_target_for_actor(_actor) {
 	_target_x += _push * _dir;
 	_target_y = lerp(_target_y, oBall.y, _ball_influence);
 
+	var _target_pos = clamp_to_field_point(_target_x, _target_y);
 	return {
-		target_x: clamp_to_field_x(_target_x),
-		target_y: clamp_to_field_y(_target_y)
+		target_x: _target_pos.x,
+		target_y: _target_pos.y
 	};
 }
 
@@ -522,7 +709,8 @@ function dribble_with_ball(_actor) {
 
 	_actor.decision = role_name(_actor.player_role) + " conduzindo";
 	oBall.pass_chain_count = 0;
-	move_actor_towards(_actor, clamp_to_field_x(_target_x), clamp_to_field_y(_target_y), 6);
+	var _target_pos = clamp_to_field_point(_target_x, _target_y);
+	move_actor_towards(_actor, _target_pos.x, _target_pos.y, 6);
 }
 
 function ai_shoot(_actor) {
@@ -708,6 +896,250 @@ function ball_bounce_from_frame(_normal_dir, _power = 0.68) {
 	pass_chain_count = 0;
 }
 
+function ball_reflect_from_wall(_x1, _y1, _x2, _y2, _power) {
+	var _vx = lengthdir_x(speed, direction);
+	var _vy = lengthdir_y(speed, direction);
+	var _tx = _x2 - _x1;
+	var _ty = _y2 - _y1;
+	var _len_sq = _tx * _tx + _ty * _ty;
+
+	if (_len_sq <= 0) {
+		speed = 0;
+		return;
+	}
+
+	var _dot = (_vx * _tx + _vy * _ty) / _len_sq;
+	var _slide_x = _tx * _dot;
+	var _slide_y = _ty * _dot;
+	var _normal_x = _vx - _slide_x;
+	var _normal_y = _vy - _slide_y;
+	var _bounce_x = _slide_x - _normal_x * _power;
+	var _bounce_y = _slide_y - _normal_y * _power;
+
+	speed = point_distance(0, 0, _bounce_x, _bounce_y);
+	if (speed > 0) {
+		direction = point_direction(0, 0, _bounce_x, _bounce_y);
+	}
+}
+
+function is_goal(_side, _y) {
+	var _is_goal = false;
+	var _ball = id; // Garante a referência correta à bola
+
+    with (oBar) {
+        if (instance_exists(top_post) && instance_exists(bottom_post)) {  
+            // 1. A bola está passando "entre" eles no eixo Y?
+            var upper_y_limit = min(top_post.y, bottom_post.y);
+            var lower_y_limit = max(top_post.y, bottom_post.y);
+    
+            if (_y >= upper_y_limit && _y <= lower_y_limit) {
+                
+                var _left_goal = x < global.field_middle;
+                var _same_side = (_side == "left" && _left_goal) || (_side == "right" && !_left_goal);            
+                
+                // Só processa se estivermos olhando para a trave correta daquele lado
+                if (_same_side) {
+                    var A = bottom_post.y - top_post.y;
+                    var B = top_post.x - bottom_post.x;
+                    var C = (bottom_post.x * top_post.y) - (top_post.x * bottom_post.y);
+            
+                    var corner_upper_l = sign(A * _ball.bbox_left + B * _ball.bbox_top + C);
+                    var corner_upper_r = sign(A * _ball.bbox_right + B * _ball.bbox_top + C);
+                    var corner_lower_l = sign(A * _ball.bbox_left + B * _ball.bbox_bottom + C);
+                    var corner_lower_r = sign(A * _ball.bbox_right + B * _ball.bbox_bottom + C);
+                    
+                    var goal_side = _side == "left" ? -1 : 1;
+
+                    // Condição 2: Atravessou totalmente a linha?
+                    if (corner_upper_l == corner_upper_r && corner_upper_r == corner_lower_l && corner_lower_l == corner_lower_r) {
+                        if (corner_upper_l == goal_side) {
+                            _is_goal = true;
+                        }
+                    }
+                }
+            }
+        }   
+    }
+	
+	return _is_goal;
+}
+
+function ball_inside_goal_mouth(_side, _y, _x) {
+	var _inside = false;
+    var net_depth = 21;
+
+    with (oBar) {
+        if (instance_exists(top_post) && instance_exists(bottom_post)) {
+            var _left_goal = x < global.field_middle;
+            var _same_side = (_side == "left" && _left_goal) || (_side == "right" && !_left_goal);
+			var _ball = id;
+
+            if (_same_side) {
+                var upper_y_limit = top_post.y;
+                var lower_y_limit = bottom_post.y;
+                var goal_line_x = top_post.x;
+
+                var _y_ok = (_y >= upper_y_limit && _y <= lower_y_limit);
+
+                var _x_ok;
+                if (_side == "left") {
+                    // entre a linha de gol e o fundo da rede (com uma margem de tolerância)
+                    _x_ok = (_x <= goal_line_x + 4) && (_x >= goal_line_x - net_depth - 4);
+                } else if (_side == "right") {
+                    _x_ok = (_x >= goal_line_x - 4) && (_x <= goal_line_x + net_depth + 4);
+                }
+
+                if (_y_ok && _x_ok) {		
+                    _inside = true;
+                }
+            }
+        }
+    }
+
+    return _inside;
+}
+
+function ball_hit_field_wall(_from_x, _from_y) {
+	refresh_field_bounds();
+
+	var _wall_height_z = variable_instance_exists(id, "wall_height_z") ? wall_height_z : -8;
+	var _wall_margin = variable_instance_exists(id, "wall_margin") ? wall_margin : 0;
+
+	if (owner != noone) {
+		var _held_pos = clamp_to_field_point(x, y, _wall_margin, 0, 0);
+		x = _held_pos.x;
+		y = _held_pos.y;
+		return;
+	}
+
+	if (z <= _wall_height_z) return;
+	if (field_point_inside(x, y, _wall_margin, 0, 0)) return;
+
+	var _side = "";
+	var _top = global.field_top;
+	var _bottom = global.field_bottom;
+
+	if (y < _top) {
+		_side = "top";
+	} else if (y > _bottom) {
+		_side = "bottom";
+	} else if (x < field_left_at_y(y) + _wall_margin) {
+		_side = "left";
+	} else if (x > field_right_at_y(y) - _wall_margin) {
+		_side = "right";
+	}
+	
+	if (goal_in_net(_side, y, x)) return;
+
+	if (!field_point_inside(_from_x, _from_y, _wall_margin, 0, 0)) return;
+    
+	var _hit_pos = clamp_to_field_point(x, y, _wall_margin, 0, 0);
+	x = _hit_pos.x;
+	y = _hit_pos.y;
+
+	var _stop_speed = variable_instance_exists(id, "wall_stop_speed") ? wall_stop_speed : 1.15;
+	var _bounce_power = variable_instance_exists(id, "wall_bounce_power") ? wall_bounce_power : 0.62;
+
+	intended_receiver = noone;
+	pass_assist_timer = 0;
+	pass_chain_count = 0;
+
+	if (speed <= _stop_speed || _side == "") {
+		speed = 0;
+		return;
+	}
+
+	switch (_side) {
+		case "top":
+			ball_reflect_from_wall(global.field_tl_x, global.field_tl_y, global.field_tr_x, global.field_tr_y, _bounce_power);
+			break;
+
+		case "bottom":
+			ball_reflect_from_wall(global.field_bl_x, global.field_bl_y, global.field_br_x, global.field_br_y, _bounce_power);
+			break;
+
+		case "left":
+			ball_reflect_from_wall(global.field_tl_x, global.field_tl_y, global.field_bl_x, global.field_bl_y, _bounce_power);
+			break;
+
+		case "right":
+			ball_reflect_from_wall(global.field_tr_x, global.field_tr_y, global.field_br_x, global.field_br_y, _bounce_power);
+			break;
+	}
+
+	if (speed <= _stop_speed) {
+		speed = 0;
+	}
+}
+
+function goal_in_net(_side, _y, _x) {
+	var inside_goal = ball_inside_goal_mouth(_side, _y, _x);
+	if (inside_goal) {
+	    // --- A BOLA ENTROU NO GOL: FÍSICA DA REDE ---
+	    var net_depth = 21;   // Profundidade do fundo da rede (Ajuste para o visual do seu jogo)
+	    var net_bounce = 0.2; // Rede absorve a energia do chute (0.0 a 1.0)
+
+	    with (oBar) {
+	        var _left_goal = x < global.field_middle;
+	        var _same_side = (_side == "left" && _left_goal) || (_side == "right" && !_left_goal);
+
+	        if (_same_side && instance_exists(top_post)) {
+	            var upper_y_limit = top_post.y;
+	            var lower_y_limit = bottom_post.y;
+	            var goal_line_x = top_post.x; 
+				
+	            // 1. Colisão com o Fundo da Rede (Eixo X)
+	            if (_side == "left") {
+	                var back_net_x = goal_line_x - net_depth;
+	                if (_x < back_net_x) {
+						audio_play_sound(sndGoalNet, 1, 0);
+	                    other.x = back_net_x;
+	                    other.speed *= -net_bounce; // Inverte e amortece
+	                }
+					
+					if (global.match_state != MATCH_STATE.GOAL) {
+						global.scores[1]++;
+						global.match_state = MATCH_STATE.GOAL;
+					}
+	            } else if (_side == "right") {
+	                var back_net_x = goal_line_x + net_depth;
+	                if (_x > back_net_x) {
+						audio_play_sound(sndGoalNet, 1, 0);
+	                    other.x = back_net_x;	
+	                    other.speed *= -net_bounce; // Inverte e amortece
+	                }
+					
+					if (global.match_state != MATCH_STATE.GOAL) {
+						if (array_length(global.collected) == array_length(global.current_syllable)) {
+							global.scores[0]++;
+							global.match_state = MATCH_STATE.GOAL;
+						} else {
+							global.match_state = MATCH_STATE.VAR;
+						}
+					}
+	            }
+
+	            // 2. Colisão com as Laterais da Rede (Eixo Y)
+	            // Impede que a bola vaze por "dentro" do gol caso bata na malha lateral
+	            if (_y < upper_y_limit) {
+					audio_play_sound(sndGoalNet, 1, 0);
+	                other.y = upper_y_limit;
+					
+	                other.speed *= -net_bounce;
+	            } else if (_y > lower_y_limit) {
+					audio_play_sound(sndGoalNet, 1, 0);
+	                other.y = lower_y_limit;
+					
+	                other.speed *= -net_bounce;
+	            }
+	        }	
+	    }
+		
+			
+	    return true; 
+	}
+}
+
 function segment_point_distance(_x1, _y1, _x2, _y2, _px, _py) {
 	var _seg_x = _x2 - _x1;
 	var _seg_y = _y2 - _y1;
@@ -747,6 +1179,7 @@ function goal_frame_collision() {
 						var _hit_y = _top_hit ? other.top_post.y : other.bottom_post.y;
 						x = prev_x;
 						y = prev_y;
+						audio_play_sound(sndGoalpost, 1, 0);
 						ball_bounce_from_frame(point_direction(_hit_x, _hit_y, x, y), 0.58);
 					}
 

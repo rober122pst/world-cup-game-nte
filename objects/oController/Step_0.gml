@@ -1,6 +1,10 @@
 var target_fps = 60;
 global.dt = clamp(delta_time / (1000000 / target_fps), 0.35, 1.8);
 
+if (global.match_state == MATCH_STATE.PLAYING) global.timer += global.dt;
+
+refresh_field_bounds();
+
 if (control_switch_timer > 0) {
 	control_switch_timer = max(control_switch_timer - global.dt, 0);
 }

@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"sndGoalpost",
+  "audioGroupId":{
+    "name":"sound_effects",
+    "path":"audiogroups/sound_effects",
+  },
+  "bitDepth":1,
+  "channelFormat":1,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":4.873968,
+  "exportDir":"",
+  "name":"sndGoalpost",
+  "parent":{
+    "name":"Sounds",
+    "path":"folders/Sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sndGoalpost.mp3",
+  "volume":0.6,
+}

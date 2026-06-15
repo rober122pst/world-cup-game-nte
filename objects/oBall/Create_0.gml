@@ -4,6 +4,10 @@ zspd = 0;
 grvt = .3;
 fric = .08;
 isJumping = false;
+wall_height_z = -18;
+wall_bounce_power = 0.62;
+wall_stop_speed = 1.15;
+wall_margin = 0;
 
 global.team_player_nearest = noone;
 global.opponent_nearest = noone;

@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"sndGoalNet",
+  "audioGroupId":{
+    "name":"sound_effects",
+    "path":"audiogroups/sound_effects",
+  },
+  "bitDepth":1,
+  "channelFormat":1,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":1.1121315,
+  "exportDir":"",
+  "name":"sndGoalNet",
+  "parent":{
+    "name":"Sounds",
+    "path":"folders/Sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sndGoalNet.mp3",
+  "volume":1.0,
+}

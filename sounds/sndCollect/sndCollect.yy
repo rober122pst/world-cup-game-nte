@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"sndCollect",
+  "audioGroupId":{
+    "name":"sound_effects",
+    "path":"audiogroups/sound_effects",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":3.2653062,
+  "exportDir":"",
+  "name":"sndCollect",
+  "parent":{
+    "name":"Sounds",
+    "path":"folders/Sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"sndCollect.mp3",
+  "volume":1.0,
+}
