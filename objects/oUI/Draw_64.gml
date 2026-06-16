@@ -42,20 +42,49 @@ array_map(
 );
 
 
-
-
-if (global.match_state == MATCH_STATE.GOAL) {
-	draw_set_colour(c_black);
-	draw_set_alpha(0.5);
-	draw_rectangle(0, 0, view_width, view_height, 0);
-	draw_sprite_ext(sprGoalText, anim_frame, view_center, view_middle, scale, scale, 0, c_white, 1);
+switch (global.match_state) {
+	case MATCH_STATE.GOAL:	
+		draw_set_colour(c_black);
+		draw_set_alpha(0.5);
+		draw_rectangle(0, 0, view_width, view_height, 0);
+		draw_sprite_ext(sprGoalText, anim_frame, view_center, view_middle, scale, scale, 0, c_white, 1);
+		break;
+	case MATCH_STATE.VAR:
+		draw_sprite_ext(sprCuriosityScreen, 0, 0, 0, scale, scale, 0, c_white, 1);
+		
+		draw_set_halign(fa_center);
+		draw_set_colour(c_white);
+		draw_set_font(font_panel);
+		draw_text_ext_transformed(view_center, 138*scale, "Gol Anulado. Sílabas não coletadas.", 11, 250, scale, scale, 0);
+		draw_set_font(font);
+		draw_text_transformed(view_center, 120*scale, "DECISÃO", scale, scale, 0);
+		
+		draw_sprite_ext(sprVarLogo, 0, view_center - (sprite_get_width(sprVarLogo)*scale)/2, 63*scale, scale ,scale, 0, c_white, 1);
+		draw_set_halign(fa_left);
+		break;
+	case MATCH_STATE.CURIOSITY:
+		draw_sprite_ext(sprCuriosityScreen, 0, 0, 0, scale, scale, 0, c_white, 1);
+		
+		draw_set_font(font_panel);
+		draw_set_halign(fa_center);
+		if (!variable_instance_exists(id, "team")) team = oTeams.get_team_curiosity(global.team_goal);
+		var text = team.curiosity;
+		draw_text_ext_transformed(view_center, 138*scale, text, 11, 250, scale, scale, 0);
+		draw_set_font(font);
+		draw_text_transformed(view_center, 120*scale, string_upper(global.team_goal), scale, scale, 0);
+		
+		draw_sprite_ext(sprFlags, team._id, view_center - (sprite_get_width(sprFlags)*scale)/2, 63*scale, scale ,scale, 0, c_white, 1);
+		draw_set_halign(fa_left);
+		break;
 }
 
-if (global.match_state == MATCH_STATE.VAR) {
-	draw_set_colour(c_black);
-	draw_set_alpha(0.5);
-	draw_rectangle(0, 0, view_width, view_height, 0);
-	draw_sprite_ext(sprVarScreen, 0, 0, 0, scale, scale, 0, c_white, 1);	
+if (oController.can_restart) {
+	draw_set_font(font_panel);
+	draw_set_halign(fa_center);
+	draw_set_alpha((current_time div 500) mod 2);
+	draw_set_colour(c_white);
+	draw_text_transformed(view_center, 216*scale, "Pressione R para voltar ao jogo", scale, scale, 0);
+	draw_set_halign(fa_left);
 }
 
 draw_set_alpha(1);

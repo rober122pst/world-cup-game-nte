@@ -9,7 +9,6 @@ global.team_away = oTeams.teams_selected[1].name;
 global.team_goal = "";
 
 global.scores = [0, 0];
-prev_goal_score = [0, 0];
 
 global.debug = false;
 
@@ -43,6 +42,7 @@ enum MATCH_STATE {
 	STARTING,
 	PLAYING,
 	GOAL,
+	CURIOSITY,
 	VAR,
 }
 
@@ -53,6 +53,11 @@ alarm[0] = game_get_speed(gamespeed_fps) * 3;
 can_swap = true;
 control_switch_timer = 0;
 last_player_with_control = noone;
+
+has_seted = false;
+set_alarm = false;
+
+can_restart = false;
 
 syllables = [
 	["BO", "LA"],

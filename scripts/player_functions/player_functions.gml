@@ -1105,6 +1105,7 @@ function goal_in_net(_side, _y, _x) {
 					
 					if (global.match_state != MATCH_STATE.GOAL) {
 						global.scores[1]++;
+						global.team_goal = global.team_away;
 						global.match_state = MATCH_STATE.GOAL;
 					}
 	            } else if (_side == "right") {
@@ -1115,9 +1116,11 @@ function goal_in_net(_side, _y, _x) {
 	                    other.speed *= -net_bounce; // Inverte e amortece
 	                }
 					
-					if (global.match_state != MATCH_STATE.GOAL) {
+					if (global.match_state != MATCH_STATE.GOAL && global.match_state != MATCH_STATE.CURIOSITY) {
 						if (array_length(global.collected) == array_length(global.current_syllable)) {
 							global.scores[0]++;
+							oController.alarm[1] = game_get_speed(gamespeed_fps) * 1.5;
+							global.team_goal = global.team_home;
 							global.match_state = MATCH_STATE.GOAL;
 						} else {
 							global.match_state = MATCH_STATE.VAR;

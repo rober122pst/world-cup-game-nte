@@ -38,6 +38,21 @@ if (_desired != noone && instance_exists(_desired)) {
 	}
 }
 
+
+switch (global.match_state) {
+	case MATCH_STATE.CURIOSITY:
+	case MATCH_STATE.GOAL:
+	case MATCH_STATE.VAR:
+		if (!has_seted) set_alarm = true;
+		break;
+}
+
+if (set_alarm) {
+	has_seted = true;
+	alarm[2] = game_get_speed(gamespeed_fps)*1.5;
+	set_alarm = false;
+}
+
 with (all) {
 	depth = -bbox_bottom;
 }

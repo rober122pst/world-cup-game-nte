@@ -1,10 +1,20 @@
+can_restart = false;
+has_seted = false;
+
 var ball = instance_create_layer(global.field_middle, global.field_center_y, "Instances", oBall);
 
 var home_1 = instance_create_layer(global.field_middle, global.field_center_y - 2, "Instances", oTeamPlayer);
+home_1.initial_x = global.field_middle - 32;
+home_1.initial_y = global.field_center_y - 32;
 var home_2 = instance_create_layer(global.field_middle - 32, global.field_center_y, "Instances", oTeamPlayer);
-
+home_2.initial_x = global.field_middle - 32;
+home_2.initial_y = global.field_center_y + 32;
 var away_1 = instance_create_layer(global.field_middle + 32, global.field_center_y - 32, "Instances", oOpponentPlayer );
+away_1.initial_x = global.field_middle + 3;
+away_1.initial_y = global.field_center_y - 32;
 var away_2 = instance_create_layer(global.field_middle + 32, global.field_center_y + 32, "Instances", oOpponentPlayer);
+away_2.initial_x = global.field_middle + 32;
+away_2.initial_y = global.field_center_y + 32;
 
 switch (global.match_state) {
 	case MATCH_STATE.VAR:
@@ -29,10 +39,11 @@ switch (global.match_state) {
 		ball.y = global.field_center_y + 16;
 		
 		break;
+	case MATCH_STATE.CURIOSITY:
 	case MATCH_STATE.GOAL:
 		global.match_state = MATCH_STATE.STARTING;
 		alarm[0] = game_get_speed(gamespeed_fps) * 3;
-		if (prev_goal_score[0] != global.scores[0]) {
+		if (global.team_goal == global.team_home) {
 			home_1.x = global.field_middle - 32;
 			home_1.y = global.field_center_y - 32;
 			
@@ -45,10 +56,10 @@ switch (global.match_state) {
 			away_2.x = global.field_middle + 32;
 			away_2.y = global.field_center_y;
 		}
-		array_copy(prev_goal_score, 0, global.scores, 0, 2);
 		break;
 }
 
+global.team_goal = "";
 global.current_syllable = syllables[irandom_range(0, array_length(syllables) - 1)];
 global.collected = [];
 

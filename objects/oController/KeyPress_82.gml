@@ -1,1 +1,1 @@
-room_restart();
+if (can_restart) room_restart();
