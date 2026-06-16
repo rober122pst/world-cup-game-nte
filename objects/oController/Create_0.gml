@@ -1,7 +1,6 @@
 randomise();
 
 audio_group_load(sound_effects);
-stadium_ambience = audio_play_sound(sndStadiumCrowd, 0, 1);
 
 global.with_poss = noone;
 

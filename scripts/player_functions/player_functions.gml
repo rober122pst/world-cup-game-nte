@@ -980,18 +980,23 @@ function ball_inside_goal_mouth(_side, _y, _x) {
                 var goal_line_x = top_post.x;
 
                 var _y_ok = (_y >= upper_y_limit && _y <= lower_y_limit);
+				
+				if (_y_ok) {
+					var _y_t = clamp((_y - upper_y_limit) / max(lower_y_limit - upper_y_limit, 1), 0, 1);
+                    var _goal_line_x = lerp(top_post.x, bottom_post.x, _y_t);	
+					
+					 var _x_ok;
+	                if (_side == "left") {
+	                    // entre a linha de gol e o fundo da rede (com uma margem de tolerância)
+	                    _x_ok = (_x <= goal_line_x + 4) && (_x >= goal_line_x - net_depth - 50);
+	                } else if (_side == "right") {
+	                    _x_ok = (_x >= goal_line_x - 4) && (_x <= goal_line_x + net_depth + 50);
+	                }
 
-                var _x_ok;
-                if (_side == "left") {
-                    // entre a linha de gol e o fundo da rede (com uma margem de tolerância)
-                    _x_ok = (_x <= goal_line_x + 4) && (_x >= goal_line_x - net_depth - 4);
-                } else if (_side == "right") {
-                    _x_ok = (_x >= goal_line_x - 4) && (_x <= goal_line_x + net_depth + 4);
-                }
-
-                if (_y_ok && _x_ok) {		
-                    _inside = true;
-                }
+	                if (_x_ok) {		
+	                    _inside = true;
+	                }
+				}
             }
         }
     }
@@ -1086,7 +1091,8 @@ function goal_in_net(_side, _y, _x) {
 	        if (_same_side && instance_exists(top_post)) {
 	            var upper_y_limit = top_post.y;
 	            var lower_y_limit = bottom_post.y;
-	            var goal_line_x = top_post.x; 
+	            var _t = clamp((_y - upper_y_limit) / (lower_y_limit - upper_y_limit), 0, 1);
+				var goal_line_x = lerp(top_post.x, bottom_post.x, _t); 
 				
 	            // 1. Colisão com o Fundo da Rede (Eixo X)
 	            if (_side == "left") {
@@ -1115,6 +1121,10 @@ function goal_in_net(_side, _y, _x) {
 							global.match_state = MATCH_STATE.GOAL;
 						} else {
 							global.match_state = MATCH_STATE.VAR;
+							if (!audio_is_playing(sndWhistleRefree)) { 
+								var whistle = audio_play_sound(sndWhistleRefree, 10, 0, 1, 3.75);
+								audio_sound_gain(whistle, 0, 1500);
+							}
 						}
 					}
 	            }

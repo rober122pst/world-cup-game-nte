@@ -29,8 +29,9 @@ if ((z + zspd) > 0) {
 speed = lerp(speed, 0, fric);
 z += zspd;
 
-ball_hit_field_wall(_from_x, _from_y);
 goal_frame_collision();
+ball_hit_field_wall(_from_x, _from_y);
+
 
 prev_x = x;
 prev_y = y;

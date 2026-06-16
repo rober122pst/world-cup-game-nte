@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"sndCollect",
+  "%Name":"sndWhistleRefree",
   "audioGroupId":{
     "name":"sound_effects",
     "path":"audiogroups/sound_effects",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":3.2653062,
+  "duration":20.616009,
   "exportDir":"",
-  "name":"sndCollect",
+  "name":"sndWhistleRefree",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"sndCollect.mp3",
+  "soundFile":"sndWhistleRefree.mp3",
   "volume":1.0,
 }

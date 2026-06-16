@@ -1,18 +1,18 @@
 {
   "$GMSound":"v2",
-  "%Name":"sndCollect",
+  "%Name":"sndStadiumCrowd2",
   "audioGroupId":{
-    "name":"sound_effects",
-    "path":"audiogroups/sound_effects",
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
   },
   "bitDepth":1,
   "channelFormat":1,
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":3.2653062,
+  "duration":25.91347,
   "exportDir":"",
-  "name":"sndCollect",
+  "name":"sndStadiumCrowd2",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"sndCollect.mp3",
-  "volume":1.0,
+  "soundFile":"sndStadiumCrowd2.mp3",
+  "volume":0.35,
 }

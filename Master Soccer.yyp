@@ -42,7 +42,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.14.4.222",
+    "IDEVersion":"2026.0.0.16",
   },
   "name":"Master Soccer",
   "resources":[
@@ -51,6 +51,7 @@
     {"id":{"name":"oBar","path":"objects/oBar/oBar.yy",},},
     {"id":{"name":"oCamera","path":"objects/oCamera/oCamera.yy",},},
     {"id":{"name":"oController","path":"objects/oController/oController.yy",},},
+    {"id":{"name":"oCrowd","path":"objects/oCrowd/oCrowd.yy",},},
     {"id":{"name":"oEntity","path":"objects/oEntity/oEntity.yy",},},
     {"id":{"name":"oFieldBL","path":"objects/oFieldBL/oFieldBL.yy",},},
     {"id":{"name":"oFieldBR","path":"objects/oFieldBR/oFieldBR.yy",},},
@@ -82,6 +83,8 @@
     {"id":{"name":"sndGoalNet","path":"sounds/sndGoalNet/sndGoalNet.yy",},},
     {"id":{"name":"sndGoalpost","path":"sounds/sndGoalpost/sndGoalpost.yy",},},
     {"id":{"name":"sndStadiumCrowd","path":"sounds/sndStadiumCrowd/sndStadiumCrowd.yy",},},
+    {"id":{"name":"sndStadiumCrowd2","path":"sounds/sndStadiumCrowd2/sndStadiumCrowd2.yy",},},
+    {"id":{"name":"sndWhistleRefree","path":"sounds/sndWhistleRefree/sndWhistleRefree.yy",},},
     {"id":{"name":"arquibancadaFINAL","path":"sprites/arquibancadaFINAL/arquibancadaFINAL.yy",},},
     {"id":{"name":"bandeirinha","path":"sprites/bandeirinha/bandeirinha.yy",},},
     {"id":{"name":"inst_arquibancadaFINAL32","path":"sprites/inst_arquibancadaFINAL32/inst_arquibancadaFINAL32.yy",},},
