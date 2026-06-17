@@ -1,0 +1,1 @@
+if (instance_exists(oSystem)) instance_destroy(oSystem);

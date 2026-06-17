@@ -18,6 +18,7 @@ away_2.initial_y = global.field_center_y + 32;
 
 switch (global.match_state) {
 	case MATCH_STATE.VAR:
+	case MATCH_STATE.GOAL_KICK_RIGHT:
 		global.match_state = MATCH_STATE.STARTING;
 		alarm[0] = game_get_speed(gamespeed_fps) * 3;
 		
@@ -36,6 +37,28 @@ switch (global.match_state) {
 		away_2.angle = 0;
 		
 		ball.x = global.field_right - 32;
+		ball.y = global.field_center_y + 16;
+		
+		break;
+	case MATCH_STATE.GOAL_KICK_LEFT:
+		global.match_state = MATCH_STATE.STARTING;
+		alarm[0] = game_get_speed(gamespeed_fps) * 3;
+		
+		home_1.x = global.field_left + 32;
+		home_1.y = global.field_center_y + 16;
+			
+		home_2.x = global.field_middle - 48;
+		home_2.y = global.field_center_y;
+		home_2.image_xscale = -1;
+		home_2.angle = 180;
+			
+		away_1.x = global.field_middle - 32;
+		away_1.y = global.field_center_y + 32;
+			
+		away_2.x = global.field_middle - 32;
+		away_2.y = global.field_center_y - 32;
+		
+		ball.x = global.field_left + 32;
 		ball.y = global.field_center_y + 16;
 		
 		break;

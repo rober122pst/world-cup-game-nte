@@ -1008,7 +1008,7 @@ function ball_hit_field_wall(_from_x, _from_y) {
 	refresh_field_bounds();
 
 	var _wall_height_z = variable_instance_exists(id, "wall_height_z") ? wall_height_z : -8;
-	var _wall_margin = variable_instance_exists(id, "wall_margin") ? wall_margin : 0;
+	var _wall_margin = variable_instance_exists(id, "wall_margin") ? wall_margin : 3;
 
 	if (owner != noone) {
 		var _held_pos = clamp_to_field_point(x, y, _wall_margin, 0, 0);
@@ -1036,7 +1036,16 @@ function ball_hit_field_wall(_from_x, _from_y) {
 	
 	if (goal_in_net(_side, y, x)) return;
 
-	if (!field_point_inside(_from_x, _from_y, _wall_margin, 0, 0)) return;
+	if (!field_point_inside(_from_x, _from_y, _wall_margin, 0, 0)) {
+		if (global.match_state != MATCH_STATE.GOAL || global.match_state != MATCH_STATE.CURIOSITY) {
+			if (x < global.field_middle)
+				global.match_state = MATCH_STATE.GOAL_KICK_LEFT;
+			else 
+				global.match_state = MATCH_STATE.GOAL_KICK_RIGHT;
+			room_restart();
+		}
+		return;
+	};
     
 	var _hit_pos = clamp_to_field_point(x, y, _wall_margin, 0, 0);
 	x = _hit_pos.x;
@@ -1106,6 +1115,7 @@ function goal_in_net(_side, _y, _x) {
 					if (global.match_state != MATCH_STATE.GOAL) {
 						global.scores[1]++;
 						global.team_goal = global.team_away;
+						var goal_sound = audio_play_sound(sndStadiumGoal, 50, 0);
 						global.match_state = MATCH_STATE.GOAL;
 					}
 	            } else if (_side == "right") {
@@ -1121,6 +1131,7 @@ function goal_in_net(_side, _y, _x) {
 							global.scores[0]++;
 							oController.alarm[1] = game_get_speed(gamespeed_fps) * 1.5;
 							global.team_goal = global.team_home;
+							var goal_sound = audio_play_sound(sndStadiumGoal, 50, 0);
 							global.match_state = MATCH_STATE.GOAL;
 						} else {
 							global.match_state = MATCH_STATE.VAR;

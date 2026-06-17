@@ -85,3 +85,11 @@ get_team_curiosity = function (_team_name) {
 	array_delete(teams[team._id].curiosities, _index, 1);
 	return { _id: team._id, curiosity };
 }
+
+get_team_id = function (_team_name) {
+	team_name = _team_name;
+	var _f = function (_element, _index) {
+		return _element.name == team_name;	
+	}
+	return array_find_index(teams, _f);	
+}

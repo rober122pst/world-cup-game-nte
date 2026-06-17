@@ -1,46 +1,44 @@
-if (!audio_is_playing(canal_musica) && estado == "tocando")
-{
-    // passa para a próxima
-    musica_index++;
+// Reduz o timer principal
+timer_troca--;
 
-    // se chegou no final, volta para a primeira
-    if (musica_index >= array_length(musicas))
-    {
-        musica_index = 0;
+// Se for a hora de mudar de áudio
+if (timer_troca <= 0) {
+    
+    // SÓ atualiza o som_antigo se o som_atual realmente existir
+    if (audio_exists(som_atual)) {
+        som_antigo = som_atual;
+        audio_sound_gain(som_antigo, 0, 3000); 
+        timer_fade_out = game_get_speed(gamespeed_fps) * 3; 
     }
 
-    var proxima = audio_play_sound(
-        musicas[musica_index],
-        1,
-        false
-    );
+    // Escolhe um novo áudio, garantindo que NÃO seja o mesmo
+    var novo_indice;
+    do {
+        novo_indice = irandom(array_length(torcidas) - 1);
+    } until (novo_indice != indice_atual);
+    
+    indice_atual = novo_indice;
 
-    audio_sound_gain(proxima, 0, 0);
+    // Garante que o asset do áudio sorteado existe antes de dar o play
+    if (audio_exists(torcidas[indice_atual])) {
+        som_atual = audio_play_sound(torcidas[indice_atual], 1, true);
+        audio_sound_gain(som_atual, 0, 0);
+        audio_sound_gain(som_atual, 1, 3000);
+    }
 
-    musica_antiga = canal_musica;
-    canal_musica = proxima;
-
-    estado = "transicao";
+    // Reseta o timer principal para a próxima troca (entre 15 e 30 seg)
+    timer_troca = game_get_speed(gamespeed_fps) * irandom_range(15, 25);
 }
 
-if (estado == "transicao")
-{
-    var vol_nova = audio_sound_get_gain(canal_musica);
-    var vol_velha = audio_sound_get_gain(musica_antiga);
-
-    vol_nova += 0.01;
-    vol_velha -= 0.01;
-	show_debug_message("Velha {0}, Nova {1}", vol_velha, vol_nova)
-
-    audio_sound_gain(canal_musica, vol_nova, 0);
-    audio_sound_gain(musica_antiga, vol_velha, 0);
-
-
-    if (vol_velha <= 0)
-    {
-        audio_stop_sound(musica_antiga);
-        estado = "tocando";
+// Limpeza de Memória: Para o áudio antigo com segurança
+if (timer_fade_out > 0) {
+    timer_fade_out--;
+    
+    if (timer_fade_out <= 0) {
+        // Verifica se o som ainda está ativo na memória antes de parar
+        if (audio_exists(som_antigo) && audio_is_playing(som_antigo)) {
+            audio_stop_sound(som_antigo);
+        }
+        som_antigo = -1; // Reseta a variável por segurança
     }
 }
-
-show_debug_message(estado)
